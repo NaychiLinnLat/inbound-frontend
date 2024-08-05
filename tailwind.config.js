@@ -13,6 +13,7 @@ module.exports = {
       bgColor: "#abb8c3",
       slate: "#f1f5f9",
       red: "#f00",
+      childBackground: "#e2e8f0",
     },
   },
   plugins: [],
