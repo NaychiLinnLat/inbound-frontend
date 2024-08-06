@@ -1,5 +1,6 @@
 import { FaEnvelopeOpen, FaPhone, FaSortDown } from "react-icons/fa";
 import logo from "../assets/img/logo.png";
+import { Link } from "react-router-dom";
 
 import { Dropdown } from "antd";
 
@@ -127,9 +128,9 @@ const Heading = () => {
           <nav className="bg-blue text-white flex justify-between rounded-lg p-5">
             <ul className="flex w-3/5  font-bold gap-3">
               <li className="">
-                <a href="#" className="hover:text-yellow">
+                <Link to="/" className="hover:text-yellow">
                   HOME
-                </a>
+                </Link>
               </li>
               <li className="">
                 <Dropdown menu={{ items }} className="">
@@ -182,7 +183,7 @@ const Heading = () => {
                 <a href="#">Premium Calculator</a>
               </li>
               <li className="bg-white text-blue p-1 rounded">
-                <a href="#">Print Certificates</a>
+                <Link to="/enquiry">Print Certificates</Link>
               </li>
               <li className="bg-white text-blue p-1 rounded">
                 <a href="#">Online Biller</a>

@@ -1,13 +1,14 @@
 import {
-  Button,
   DatePicker,
   Input,
   InputNumber,
+  Button,
   Radio,
   Select,
   Modal,
   Form,
 } from "antd";
+import { useNavigate } from "react-router-dom";
 import { getAllCountry } from "../api/countryApi";
 import { getAgentByLicense } from "../api/agentApi";
 import { getPremiumRateByAgeAndCoveragePlan } from "../api/premiumRateApi";
@@ -18,37 +19,129 @@ import agentImg from "../assets/img/agent_assoc.png";
 import visaImg from "../assets/img/visa_icon.png";
 import masterImg from "../assets/img/master_card.png";
 
-const InboundFormPage = () => {
-  const [dob, setDob] = useState(null);
+const InboundFormPage = ({
+  countryNameList,
+  setCountryNameList,
+  countryCodeList,
+  setCountryCodeList,
 
-  const [age, setAge] = useState(null);
-  const [coveragePlan, setCoveragePlan] = useState(null);
+  // Insured Person
+  passportNumber,
+  setPassportNumber,
+  passportIssuedDate,
+  setPassportIssuedDate,
+  passportIssuedCountry,
+  setPassportIssuedCountry,
 
-  // const [countryList, setCountryList] = useState([]);
-  const [countryNameList, setCountryNameList] = useState([]);
-  const [countryCodeList, setCountryCodeList] = useState([]);
-  const [passportIssuedCountry, setPassportIssuedCountry] = useState("");
+  isForChild,
+  setIsForChild,
 
-  const [isForChild, setIsForChild] = useState(false);
-  const [isAgent, setIsAgent] = useState(false);
-  const [isAgentModalOpen, setIsAgentModalOpen] = useState(false);
-  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState(false);
+  name,
+  setName,
+  dob,
+  setDob,
+  gender,
+  setGender,
 
-  const [agentLicenseNo, setAgentLicenseNo] = useState(null);
-  const [agentPassword, setAgentPassword] = useState(null);
-  const [agentLoading, setAgentLoading] = useState(false);
+  estimatedArrivalDate,
+  setEstimatedArrivalDate,
+  journeyFrom,
+  setJourneyFrom,
 
-  const [licenseNo, setLicenseNo] = useState(null);
-  const [agentName, setAgentName] = useState(null);
+  coveragePlan,
+  setCoveragePlan,
+  age,
+  setAge,
+  premiumRate,
+  setPremiumRate,
+
+  countryCode,
+  setCountryCode,
+  phoneNo,
+  setPhoneNo,
+  contactNumber,
+  setContactNumber,
+  email,
+  setEmail,
+
+  addressInMyanmar,
+  setAddressInMyanmar,
+  residentAddress,
+  setResidentAddress,
+  residentCountry,
+  setResidentCountry,
+
+  //Beneficiary
+  beneficiaryName,
+  setBeneficiaryName,
+  beneficiaryDob,
+  setBeneficiaryDob,
+  beneficiaryNin,
+  setBeneficiaryNin,
+
+  beneficiaryRelationship,
+  setBeneficiaryRelationship,
+  beneficiaryCoutryCode,
+  setBeneficiaryCountryCode,
+  beneficiaryPhoneNo,
+  setBeneficiaryPhoneNo,
+  beneficiaryContactNumber,
+  setBeneficiaryContactNumber,
+  beneficiaryEmail,
+  setBeneficiaryEmail,
+
+  beneficiaryResidentAddress,
+  setBeneficiaryResidentAddress,
+  beneficiaryResidentCountry,
+  setBeneficiaryResidentCountry,
+
+  // Child
+  childName,
+  setChildName,
+  childDob,
+  setChildDob,
+  childGender,
+  setChildGender,
+
+  childGuardianceName,
+  setChildGuardianceName,
+  childRelationship,
+  setChildRelationship,
+
+  // Agent
+  isAgent,
+  setIsAgent,
+
+  isAgentModalOpen,
+  setIsAgentModalOpen,
+  agentLoading,
+  setAgentLoading,
+
+  agentLicenseNo,
+  setAgentLicenseNo,
+  agentPassword,
+  setAgentPassword,
+
+  licenseNo,
+  setLicenseNo,
+  agentName,
+  setAgentName,
+
+  // Payment
+  isPaymentModalOpen,
+  setIsPaymentModalOpen,
+  paymentMethod,
+  setPaymentMethod,
+}) => {
+  const navigate = useNavigate();
 
   const genderOptions = [
     {
-      value: 1,
+      value: "MALE",
       label: "MALE",
     },
     {
-      value: 2,
+      value: "FEMALE",
       label: "FEMALE",
     },
   ];
@@ -124,7 +217,7 @@ const InboundFormPage = () => {
 
     const modifiedCountryNameData = sortedData?.map((d) => {
       return {
-        value: d.id,
+        value: d.name.toUpperCase(),
         label: d.name.toUpperCase(),
       };
     });
@@ -133,7 +226,7 @@ const InboundFormPage = () => {
 
     const modifiedCountryCodeData = sortedData?.map((d) => {
       return {
-        value: d.id,
+        value: d.countryCode,
         label: `${d.countryCode} ${d.name.toUpperCase()}`,
       };
     });
@@ -147,20 +240,22 @@ const InboundFormPage = () => {
     formData.append("days", coveragePlan);
 
     const response = await getPremiumRateByAgeAndCoveragePlan(formData);
-
+    console.log(response);
     if (response?.data) {
+      setPremiumRate(response.data.rate);
       console.log(response.data);
     }
   };
 
   const calculateAge = (dob) => {
     var today = new Date();
-    var age = today.getFullYear() - dob.getFullYear();
+    var ageValue = today.getFullYear() - dob.getFullYear();
     var m = today.getMonth() - dob.getMonth();
     if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
-      age--;
+      ageValue--;
     }
-    setAge(age);
+    setAge(ageValue);
+    console.log(age);
   };
 
   const dateformat = (d) => {
@@ -201,6 +296,7 @@ const InboundFormPage = () => {
   };
 
   const handlePaymentOk = () => {
+    navigate("/checkinfo");
     setIsPaymentModalOpen(false);
   };
 
@@ -208,8 +304,8 @@ const InboundFormPage = () => {
     setIsPaymentModalOpen(false);
   };
 
-  const sumbitForm = (e) => {
-    e.preventDefault();
+  const sumbitForm = (values) => {
+    // e.preventDefault();
     setIsPaymentModalOpen(true);
     console.log("submitForm called");
   };
@@ -221,8 +317,19 @@ const InboundFormPage = () => {
   useEffect(() => {
     if (dob !== null) {
       calculateAge(dob);
+      console.log(dob);
     }
   }, [dob]);
+
+  useEffect(() => {
+    setContactNumber(`${countryCode} ${phoneNo}`);
+  }, [countryCode, phoneNo]);
+
+  useEffect(() => {
+    setBeneficiaryContactNumber(
+      `${beneficiaryCoutryCode} ${beneficiaryPhoneNo}`
+    );
+  }, [beneficiaryCoutryCode, beneficiaryPhoneNo]);
 
   useEffect(() => {
     if (age !== null && coveragePlan !== null) {
@@ -235,7 +342,18 @@ const InboundFormPage = () => {
       <div className="flex justify-center text-2xl font-bold text-blue my-4">
         INBOUND TRAVEL ACCIDENT INSURANCE
       </div>
-      <form className="bg-white rounded p-10">
+
+      <Form
+        layout="vertical"
+        // form={form}
+        name="form_in_modal"
+        initialValues={{
+          modifier: "public",
+        }}
+        clearOnDestroy
+        onFinish={(values) => sumbitForm(values)}
+        className="bg-white rounded p-10"
+      >
         <div className="w-full">
           <div className="text-xl text-blue font-bold underline mb-3">
             PASSPORT INFORMATION &#40;In English&#41;
@@ -245,17 +363,33 @@ const InboundFormPage = () => {
               <div className="text-xl text-blue font-semibold mb-2">
                 Passport Number <span className="text-red">*</span>
               </div>
-              <Input
-                className="w-[100%] h-12"
-                placeholder="ENTER YOUR PASSPORT NO."
-              />
+              <Form.Item
+                name="name"
+                rules={[
+                  {
+                    required: true,
+                    message: (
+                      <span className="text-xl">This field is required</span>
+                    ),
+                  },
+                ]}
+              >
+                <Input
+                  className="w-[100%] h-12"
+                  placeholder="ENTER YOUR PASSPORT NO."
+                  onChange={(e) => setPassportNumber(e.target.value)}
+                />
+              </Form.Item>
             </div>
 
             <div className="w-1/3">
               <div className="text-xl text-blue font-semibold mb-2">
                 Passport Issued Date <span className="text-red">*</span>
               </div>
-              <DatePicker className="w-[100%] h-12" />
+              <DatePicker
+                className="w-[100%] h-12"
+                onChange={(value) => setPassportIssuedDate(value)}
+              />
             </div>
 
             <div className="w-1/3">
@@ -267,9 +401,7 @@ const InboundFormPage = () => {
                 className="w-[100%] h-12"
                 placeholder="SELECT ONE"
                 options={countryNameList}
-                onChange={(value) =>
-                  setPassportIssuedCountry(countryNameList[value - 1].label)
-                }
+                onChange={(value) => setPassportIssuedCountry(value)}
                 required
               />
             </div>
@@ -311,7 +443,8 @@ const InboundFormPage = () => {
               </div>
               <Input
                 className="w-[100%] h-12"
-                placeholder="ENTER YOUR PASSPORT NO."
+                placeholder="ENTER INSURED NAME"
+                onChange={(e) => setName(e.target.value)}
               />
             </div>
 
@@ -338,6 +471,7 @@ const InboundFormPage = () => {
                 className="w-[100%] h-12"
                 placeholder="SELECT ONE"
                 options={genderOptions}
+                onChange={(value) => setGender(value)}
               />
             </div>
           </div>
@@ -346,7 +480,13 @@ const InboundFormPage = () => {
               <div className="text-xl text-blue font-semibold mb-2">
                 Estimated Arrival Date <span className="text-red">*</span>
               </div>
-              <DatePicker className="w-[100%] h-12" />
+              <DatePicker
+                className="w-[100%] h-12"
+                onChange={(value) => {
+                  const date = new Date(value);
+                  setEstimatedArrivalDate(date);
+                }}
+              />
             </div>
             <div className="w-1/3">
               <div className="text-xl text-blue font-semibold mb-2">
@@ -356,6 +496,7 @@ const InboundFormPage = () => {
                 className="w-[100%] h-12"
                 placeholder="SELECT ONE"
                 options={countryNameList}
+                onChange={(value) => setJourneyFrom(value)}
               />
             </div>
             <div className="w-1/3">
@@ -387,8 +528,12 @@ const InboundFormPage = () => {
                   className="w-[25%] h-12"
                   placeholder="SELECT ONE"
                   options={countryCodeList}
+                  onChange={(value) => setCountryCode(value)}
                 />
-                <InputNumber className="w-[75%] h-12" />
+                <Input
+                  className="w-[75%] h-12"
+                  onChange={(e) => setPhoneNo(e.target.value)}
+                />
               </div>
             </div>
             <div className="w-1/3">
@@ -398,6 +543,7 @@ const InboundFormPage = () => {
               <Input
                 className="w-[100%] h-12"
                 placeholder="Insured's Email Address"
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
           </div>
@@ -407,7 +553,11 @@ const InboundFormPage = () => {
                 Address in Myanmar &#40;Max: 250 Char&#41;{" "}
                 <span className="text-red">*</span>
               </div>
-              <Input.TextArea className="w-[100%]" rows={8} />
+              <Input.TextArea
+                className="w-[100%]"
+                rows={8}
+                onChange={(e) => setAddressInMyanmar(e.target.value)}
+              />
             </div>
 
             <div className="w-1/3">
@@ -415,7 +565,11 @@ const InboundFormPage = () => {
                 Resident Address &#40;Max: 250 Char&#41;{" "}
                 <span className="text-red">*</span>
               </div>
-              <Input.TextArea className="w-[100%]" rows={8} />
+              <Input.TextArea
+                className="w-[100%]"
+                rows={8}
+                onChange={(e) => setResidentAddress(e.target.value)}
+              />
             </div>
 
             <div className="w-1/3">
@@ -426,6 +580,7 @@ const InboundFormPage = () => {
                 className="w-[100%] h-12"
                 placeholder="SELECT ONE"
                 options={countryNameList}
+                onChange={(value) => setResidentCountry(value)}
               />
             </div>
           </div>
@@ -443,6 +598,7 @@ const InboundFormPage = () => {
                   <Input
                     className="w-[100%] h-12"
                     placeholder="ENTER CHILD NAME"
+                    onChange={(e) => setChildName(e.target.value)}
                   />
                 </div>
 
@@ -450,7 +606,13 @@ const InboundFormPage = () => {
                   <div className="text-xl text-blue font-semibold mb-2">
                     Date of Birth <span className="text-red">*</span>
                   </div>
-                  <DatePicker className="w-[100%] h-12" />
+                  <DatePicker
+                    className="w-[100%] h-12"
+                    onChange={(value) => {
+                      const date = new Date(value);
+                      setChildDob(date);
+                    }}
+                  />
                 </div>
 
                 <div className="w-1/3">
@@ -461,6 +623,7 @@ const InboundFormPage = () => {
                     className="w-[100%] h-12"
                     placeholder="SELECT ONE"
                     options={genderOptions}
+                    onChange={(value) => setChildGender(value)}
                   />
                 </div>
               </div>
@@ -472,6 +635,7 @@ const InboundFormPage = () => {
                   <Input
                     className="w-[100%] h-12"
                     placeholder="ENTER GUARDIANCE NAME"
+                    onChange={(e) => setChildGuardianceName(e.target.value)}
                   />
                 </div>
                 <div className="w-1/3">
@@ -481,6 +645,7 @@ const InboundFormPage = () => {
                   <Input
                     className="w-[100%] h-12"
                     placeholder="ENTER RELATIONSHIP"
+                    onChange={(e) => setChildRelationship(e.target.value)}
                   />
                 </div>
 
@@ -504,7 +669,8 @@ const InboundFormPage = () => {
               </div>
               <Input
                 className="w-[100%] h-12"
-                placeholder="ENTER YOUR PASSPORT NO."
+                placeholder="ENTER NAME"
+                onChange={(e) => setBeneficiaryName(e.target.value)}
               />
             </div>
 
@@ -512,7 +678,13 @@ const InboundFormPage = () => {
               <div className="text-xl text-blue font-semibold mb-2">
                 Date of Birth <span className="text-red">*</span>
               </div>
-              <DatePicker className="w-[100%] h-12" />
+              <DatePicker
+                className="w-[100%] h-12"
+                onChange={(value) => {
+                  const date = new Date(value);
+                  setBeneficiaryDob(date);
+                }}
+              />
             </div>
 
             <div className="w-1/3">
@@ -522,6 +694,7 @@ const InboundFormPage = () => {
               <Input
                 className="w-[100%] h-12"
                 placeholder="ENTER NATIONAL IDENTIFICATION NUMBER"
+                onChange={(e) => setBeneficiaryNin(e.target.value)}
               />
             </div>
           </div>
@@ -533,30 +706,36 @@ const InboundFormPage = () => {
               <Input
                 className="w-[100%] h-12"
                 placeholder="ENTER RELATIONSHIP"
+                onChange={(e) => setBeneficiaryRelationship(e.target.value)}
               />
             </div>
 
             <div className="w-1/3">
               <div className="text-xl text-blue font-semibold mb-2">
-                Insured's Contact Phone Number{" "}
-                <span className="text-red">*</span>
+                Contact Phone Number <span className="text-red">*</span>
               </div>
               <div className="flex ">
                 <Select
                   className="w-[25%] h-12"
                   placeholder="SELECT ONE"
                   options={countryCodeList}
+                  onChange={(value) => setBeneficiaryCountryCode(value)}
                 />
-                <InputNumber
+                <Input
                   className="w-[75%] h-12"
                   placeholder="ENTER INSURED'S CONTACT PHONE NUMBER"
+                  onChange={(e) => setBeneficiaryPhoneNo(e.target.value)}
                 />
               </div>
             </div>
 
             <div className="w-1/3">
               <div className="text-xl text-blue font-semibold mb-2">Email</div>
-              <Input className="w-[100%] h-12" placeholder="ENTER EMAIL" />
+              <Input
+                className="w-[100%] h-12"
+                placeholder="ENTER EMAIL"
+                onChange={(e) => setBeneficiaryEmail(e.target.value)}
+              />
             </div>
           </div>
           <div className="flex justify-between gap-8 mb-2">
@@ -565,7 +744,11 @@ const InboundFormPage = () => {
                 Resident Address &#40;Max: 250 Char&#41;{" "}
                 <span className="text-red">*</span>
               </div>
-              <Input.TextArea className="w-[100%]" rows={8} />
+              <Input.TextArea
+                className="w-[100%]"
+                rows={8}
+                onChange={(e) => setBeneficiaryResidentAddress(e.target.value)}
+              />
             </div>
             <div className="w-1/3">
               <div className="text-xl text-blue font-semibold mb-2">
@@ -575,6 +758,7 @@ const InboundFormPage = () => {
                 className="w-[100%] h-12"
                 placeholder="SELECT ONE"
                 options={countryNameList}
+                onChange={(value) => setBeneficiaryResidentCountry(value)}
               />
             </div>
             <div className="w-1/3">
@@ -653,12 +837,13 @@ const InboundFormPage = () => {
         <div className="my-5">
           <button
             className="bg-blue text-white text-lg font-semibold rounded px-8 py-3"
-            onClick={sumbitForm}
+            type="submit"
+            // onClick={sumbitForm}
           >
             SUBMIT AND CONTINUE{" "}
           </button>
         </div>
-      </form>
+      </Form>
 
       <Modal
         title={
@@ -717,31 +902,33 @@ const InboundFormPage = () => {
           </div>
           <div className="flex bg-childBackground text-xl p-3 mb-1">
             <div className="w-1/2 font-semibold">Premium Amount</div>
-            <div className="w-1/2 font-bold">50 USD</div>
+            <div className="w-1/2 font-bold">{premiumRate} USD</div>
           </div>
           <div className="flex bg-childBackground text-xl p-3 mb-1">
             <div className="w-1/2 font-semibold">Net Premium</div>
-            <div className="w-1/2 font-bold">50 USD</div>
+            <div className="w-1/2 font-bold">{premiumRate} USD</div>
           </div>
           <div className="flex bg-childBackground text-xl p-3 mb-1">
             <div className="w-1/2 font-semibold">Age &#40;Year&#41;</div>
-            <div className="w-1/2 font-bold">24</div>
+            <div className="w-1/2 font-bold">{age}</div>
           </div>
           <div className="flex bg-childBackground text-xl p-3 mb-1">
             <div className="w-1/2 font-semibold">Coverage Plan</div>
-            <div className="w-1/2 font-bold">15 Days</div>
+            <div className="w-1/2 font-bold">{coveragePlan} Days</div>
           </div>
           <div className="flex bg-childBackground text-xl p-3 mb-1">
             <div className="w-1/2 font-semibold">Passport Number</div>
-            <div className="w-1/2 font-bold">ASF213</div>
+            <div className="w-1/2 font-bold">{passportNumber}</div>
           </div>
           <div className="flex bg-childBackground text-xl p-3 mb-1">
             <div className="w-1/2 font-semibold">Name (as per passport)</div>
-            <div className="w-1/2 font-bold">STEVE</div>
+            <div className="w-1/2 font-bold">{name}</div>
           </div>
           <div className="flex bg-childBackground text-xl p-3 mb-1">
             <div className="w-1/2 font-semibold">Estimated Arrival Date</div>
-            <div className="w-1/2 font-bold">05-08-2024</div>
+            <div className="w-1/2 font-bold">
+              {dateformat(estimatedArrivalDate)}
+            </div>
           </div>
         </div>
         <div className="mt-5">
