@@ -5,11 +5,11 @@ import Footer from "../components/Footer";
 
 const Userlayout = () => {
   return (
-    <>
+    <div className="bg-slate">
       <Heading />
       <Outlet />
       <Footer />
-    </>
+    </div>
   );
 };
 

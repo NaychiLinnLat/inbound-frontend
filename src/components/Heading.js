@@ -28,9 +28,9 @@ const Heading = () => {
 
   return (
     <header className="">
-      <div className="w-full bg-white h-44 mb-20">
-        <div className="w-[95%] mx-auto">
-          <div className="flex justify-between p-5">
+      <div className="w-full bg-white h-32 mb-20">
+        <div className="w-[90%] mx-auto">
+          <div className="flex justify-between ">
             <div className="w-1/3 flex justify-between items-center ">
               <a href="#">
                 <img src={logo} alt="logo" className="" />
@@ -71,9 +71,9 @@ const Heading = () => {
                 </li>
                 <li className="border-r-2 border-bgColor"></li>
                 <li>
-                  <div className="p-5">
+                  <div className="mt-5">
                     <aside className="">
-                      <ul className="flex">
+                      <ul className="flex ">
                         <li class="text-lg text-white bg-blue mr-1 w-10 text-center border-t-4">
                           <a href="#">MM</a>
                         </li>
@@ -85,48 +85,10 @@ const Heading = () => {
                   </div>
                 </li>
               </ul>
-              {/* <ul class="clearfix calculator-btn-box d-block d-lg-none">
-              <li>
-                <a href="https://www.mminsurance.gov.mm/buy-online/">
-                  Buy Online
-                </a>
-              </li>
-              <li>
-                <a href="https://www.mminsurance.gov.mm/premium-payment/">
-                  Online Biller
-                </a>
-              </li>
-              <li>
-                <a href="https://www.mminsurance.gov.mm/print-certificates-landing-page/">
-                  Print Certificates
-                </a>
-              </li>
-              <li>
-                <a
-                  href=""
-                  data-toggle="modal"
-                  data-target="#PremiumCalculatorLink"
-                >
-                  Premium Calculator
-                </a>
-              </li>
-            </ul> */}
-
-              {/* <ul class="clearfix calculator-btn-box d-block d-lg-none">
-                    <li>
-          <a href="https://www.mminsurance.gov.mm/login/"><i class="fas fa-sign-in-alt"></i> Sign In</a>
-        </li>
-                      <li>
-          <a href="https://www.mminsurance.gov.mm/buy-online/">Buy Online</a>
-        </li>
-        <li>
-          <a href="" data-toggle="modal" data-target="#PremiumCalculatorLink">Premium Calculator</a>
-        </li>
-      </ul>  */}
             </div>
           </div>
-          <nav className="bg-blue text-white flex justify-between rounded-lg p-5">
-            <ul className="flex w-3/5  font-bold gap-3">
+          <nav className="bg-blue text-white flex justify-between items-center rounded-lg p-4">
+            <ul className="flex w-3/5 text-sm font-bold gap-2">
               <li className="">
                 <Link to="/" className="hover:text-yellow">
                   HOME
@@ -178,7 +140,7 @@ const Heading = () => {
                 </a>
               </li>
             </ul>
-            <ul className="flex w-2/5 font-bold gap-3">
+            <ul className="flex w-2/5 text-sm font-bold gap-2">
               <li className="bg-white text-blue p-1 rounded">
                 <a href="#">Premium Calculator</a>
               </li>

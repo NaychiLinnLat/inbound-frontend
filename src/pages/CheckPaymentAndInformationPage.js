@@ -1,5 +1,8 @@
-import { Button } from "antd";
+import { Button, Modal, Result } from "antd";
 import { useState, useEffect } from "react";
+import { createProposal } from "../api/proposalApi";
+import { dateformat } from "../utils/dateformat";
+import { useNavigate } from "react-router-dom";
 
 const CheckPaymentAndInformationPage = ({
   countryNameList,
@@ -118,6 +121,10 @@ const CheckPaymentAndInformationPage = ({
   const [serviceFee, setServiceFee] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const navigate = useNavigate();
+
   const calculateServiceFee = () => {
     const fee = premiumRate * 0.03627;
     setServiceFee(fee);
@@ -127,12 +134,75 @@ const CheckPaymentAndInformationPage = ({
     setTotalAmount(totalAmount);
   };
 
-  const dateformat = (d) => {
-    const date = new Date(d);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    navigate("/");
+  };
+
+  const createInboundProposal = async () => {
+    const formData = new FormData();
+
+    // Insured Person
+    formData.append("passportNo", passportNumber);
+    formData.append("passportIssuedDate", dateformat(passportIssuedDate));
+    formData.append("passportCountry", passportIssuedCountry);
+
+    formData.append("isChild", isForChild);
+
+    formData.append("insuredPersonName", name);
+    formData.append("insuredPersondob", dateformat(dob));
+    formData.append("insuredPersongender", gender);
+
+    formData.append("phoneNo", contactNumber);
+    formData.append("insuredPersonEmail", email);
+    formData.append("localaddress", addressInMyanmar);
+    formData.append("foreignAddress", residentAddress);
+    formData.append("residentCountry", residentCountry);
+
+    // Beneficiary
+    formData.append("beneficiaryName", beneficiaryName);
+    formData.append("beneficiarydob", dateformat(beneficiaryDob));
+    formData.append("nin", beneficiaryNin);
+    formData.append("relationship", beneficiaryRelationship);
+    formData.append("beneficiaryPhNo", beneficiaryContactNumber);
+    formData.append("beneficiaryEmail", beneficiaryEmail);
+    formData.append("address", beneficiaryResidentAddress);
+    formData.append("benefiCountry", beneficiaryResidentCountry);
+
+    // Child
+    formData.append("childName", childName);
+    formData.append("childDob", dateformat(childDob));
+    formData.append("childGender", childGender);
+    formData.append("gurdianceName", childGuardianceName);
+    formData.append("childRelationship", childRelationship);
+
+    // Agent
+    formData.append("licenceNo", agentLicenseNo);
+
+    // Inbound Proposal
+    formData.append("arrivalDate", dateformat(estimatedArrivalDate));
+    formData.append("journeyFrom", journeyFrom);
+    formData.append("coveragePlan", coveragePlan);
+
+    formData.append("age", age);
+    formData.append("premiumRate", premiumRate);
+    formData.append("serviceFees", serviceFee);
+    formData.append("submittedDate", dateformat(new Date()));
+
+    formData.append("policyStartDate", dateformat(estimatedArrivalDate));
+    formData.append(
+      "policyEndDate",
+      dateformat(
+        estimatedArrivalDate.getTime() + coveragePlan * 24 * 60 * 60 * 1000
+      )
+    );
+
+    const response = await createProposal(formData);
+    if (response) console.log(response);
+    setIsModalOpen(true);
   };
 
   useEffect(() => {
@@ -142,7 +212,6 @@ const CheckPaymentAndInformationPage = ({
   useEffect(() => {
     calculateTotalAmount();
   }, [serviceFee]);
-  const createProposal = async () => {};
 
   return (
     <div className="w-[95%] mx-auto rounded bg-white">
@@ -319,11 +388,31 @@ const CheckPaymentAndInformationPage = ({
           </div>
         </div>
         <div className="mt-10">
-          <Button className="text-xl text-white bg-blue font-semibold p-4 h-10">
+          <Button
+            className="text-xl text-white bg-blue font-semibold p-4 h-10"
+            onClick={createInboundProposal}
+          >
             CONFIRM
           </Button>
         </div>
       </div>
+      <Modal
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={null}
+      >
+        <Result
+          status="success"
+          title="Inbound Proposal Created"
+          // subTitle="Order Confirmed"
+          // extra={[
+          //   <Button type="primary" onClick={() => navigate("/")}>
+          //     Go To Home
+          //   </Button>,
+          // ]}
+        />
+      </Modal>
     </div>
   );
 };
