@@ -28,8 +28,8 @@ const Heading = () => {
 
   return (
     <header className="">
-      <div className="w-full bg-white h-32 mb-20">
-        <div className="w-[90%] mx-auto">
+      <div className="w-full bg-white h-32 mb-16">
+        <div className="w-[87%] mx-auto">
           <div className="flex justify-between ">
             <div className="w-1/3 flex justify-between items-center ">
               <a href="#">
@@ -87,7 +87,7 @@ const Heading = () => {
               </ul>
             </div>
           </div>
-          <nav className="bg-blue text-white flex justify-between items-center rounded-lg p-4">
+          <nav className="bg-blue text-white flex justify-between items-center rounded-lg p-4 shadow-xl">
             <ul className="flex w-3/5 text-sm font-bold gap-2">
               <li className="">
                 <Link to="/" className="hover:text-yellow">

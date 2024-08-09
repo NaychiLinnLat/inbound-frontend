@@ -12,9 +12,8 @@ const CheckPaymentAndInformationPage = ({
 
   // Insured Person
   passportNumber,
-  setPassportNumber,
   passportIssuedDate,
-  setPassportIssuedDate,
+
   passportIssuedCountry,
   setPassportIssuedCountry,
 
@@ -126,11 +125,11 @@ const CheckPaymentAndInformationPage = ({
   const navigate = useNavigate();
 
   const calculateServiceFee = () => {
-    const fee = premiumRate * 0.03627;
+    const fee = parseFloat(premiumRate * 0.03627).toFixed(2);
     setServiceFee(fee);
   };
   const calculateTotalAmount = () => {
-    const totalAmount = premiumRate + serviceFee;
+    const totalAmount = parseInt(premiumRate) + parseFloat(serviceFee);
     setTotalAmount(totalAmount);
   };
 
@@ -139,7 +138,7 @@ const CheckPaymentAndInformationPage = ({
   };
   const handleCancel = () => {
     setIsModalOpen(false);
-    navigate("/");
+    navigate("/#home");
   };
 
   const createInboundProposal = async () => {

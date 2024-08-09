@@ -224,6 +224,7 @@ const InboundFormPage = ({
     });
 
     setCountryNameList(modifiedCountryNameData);
+    console.log(modifiedCountryNameData);
 
     const modifiedCountryCodeData = sortedData?.map((d) => {
       return {
@@ -331,8 +332,8 @@ const InboundFormPage = ({
 
   return (
     <div className="w-full">
-      <div className="w-[90%] bg-slate mx-auto">
-        <div className="flex justify-center text-2xl font-bold text-blue my-4">
+      <div className="w-[87%] bg-[#f0f4f9] mx-auto">
+        <div className="flex justify-center font-sans text-[22px] tracking-[-0.035em] font-semibold text-blue my-4">
           INBOUND TRAVEL ACCIDENT INSURANCE
         </div>
 
@@ -345,15 +346,15 @@ const InboundFormPage = ({
           }}
           clearOnDestroy
           onFinish={(values) => sumbitForm(values)}
-          className="bg-white rounded p-10"
+          className="bg-white rounded p-10 shadow-2xl"
         >
           <div className="w-full">
-            <div className="text-xl text-blue font-bold underline mb-3">
+            <div className="text-lg text-blue font-bold underline mb-3">
               PASSPORT INFORMATION &#40;In English&#41;
             </div>
             <div className="flex justify-between gap-8">
               <div className="w-1/3">
-                <div className="text-xl text-blue font-semibold mb-2">
+                <div className="text-lg text-blue font-semibold mb-2">
                   Passport Number <span className="text-red">*</span>
                 </div>
                 <Form.Item
@@ -362,21 +363,26 @@ const InboundFormPage = ({
                     {
                       required: true,
                       message: (
-                        <span className="text-xl">This field is required</span>
+                        <span className="text-lg text-red">
+                          This field is required
+                        </span>
                       ),
                     },
                   ]}
                 >
                   <Input
-                    className="w-[100%] h-12"
+                    className="w-[100%] text-[17px] h-[42px]"
                     placeholder="ENTER YOUR PASSPORT NO."
+                    onInput={(e) =>
+                      (e.target.value = e.target.value.toUpperCase())
+                    }
                     onChange={(e) => setPassportNumber(e.target.value)}
                   />
                 </Form.Item>
               </div>
 
               <div className="w-1/3">
-                <div className="text-xl text-blue font-semibold mb-2">
+                <div className="text-lg text-blue font-semibold mb-2">
                   Passport Issued Date <span className="text-red">*</span>
                 </div>
                 <Form.Item
@@ -385,20 +391,20 @@ const InboundFormPage = ({
                     {
                       required: true,
                       message: (
-                        <span className="text-xl">This field is required</span>
+                        <span className="text-lg">This field is required</span>
                       ),
                     },
                   ]}
                 >
                   <DatePicker
-                    className="w-[100%] h-12"
+                    className="w-[100%] h-[42px]"
                     onChange={(value) => setPassportIssuedDate(value)}
                   />
                 </Form.Item>
               </div>
 
               <div className="w-1/3">
-                <div className="text-xl text-blue font-semibold mb-2">
+                <div className="text-lg text-blue font-semibold mb-2">
                   Passport Issued Country <span className="text-red">*</span>
                 </div>
                 <Form.Item
@@ -407,13 +413,13 @@ const InboundFormPage = ({
                     {
                       required: true,
                       message: (
-                        <span className="text-xl">This field is required</span>
+                        <span className="text-lg">This field is required</span>
                       ),
                     },
                   ]}
                 >
                   <Select
-                    className="w-[100%] h-12"
+                    className="w-[100%] h-[42px] "
                     placeholder="SELECT ONE"
                     options={countryNameList}
                     onChange={(value) => setPassportIssuedCountry(value)}
@@ -425,35 +431,37 @@ const InboundFormPage = ({
             <hr className="my-8 text-bgColor" />
           </div>
           <div className="w-full">
-            <div className="text-xl text-blue font-bold underline mb-3">
+            <div className="text-lg text-blue font-bold underline mb-3">
               INSURED INFORMATION &#40;In English&#41;
             </div>
             <div>
               <Radio.Group
                 onChange={(e) => setIsForChild(e.target.value)}
                 value={isForChild}
-                className=" flex gap-2 mb-3"
+                className=" flex items-center gap-2 mb-3"
               >
                 <Radio
                   value={false}
-                  className="w-1/3 text-xl text-blue font-bold "
+                  className="w-1/3 text-[16px] text-blue font-bold "
                 >
                   BUY FOR YOURSELF &#40;THIS PASSPORT HOLDER&#41;
                 </Radio>
                 <Radio
                   value={true}
-                  className="w-2/3 text-xl text-blue font-bold "
+                  className="w-2/3  text-[16px] text-blue font-bold "
                 >
                   <div>
-                    BUY FOR THE CHILD TRAVEL TOGETHER WITH THIS PASSPORT HOLDER
+                    BUY FOR THE CHILD TRAVEL TOGETHER WITH THIS PASSPORT HOLDER{" "}
+                    <span className="flex flex-nowrap">
+                      &#40;CHILD IS NOT HOLDING A VALID PASSPORT&#41;
+                    </span>
                   </div>
-                  <div>&#40;CHILD IS NOT HOLDING A VALID PASSPORT&#41;</div>
                 </Radio>
               </Radio.Group>
             </div>
             <div className="flex justify-between gap-8 mb-2">
               <div className="w-1/3">
-                <div className="text-xl text-blue font-semibold mb-2">
+                <div className="text-lg text-blue font-semibold mb-2">
                   Name &#40;as per passport&#41;
                   <span className="text-red">*</span>
                 </div>
@@ -463,21 +471,24 @@ const InboundFormPage = ({
                     {
                       required: true,
                       message: (
-                        <span className="text-xl">This field is required</span>
+                        <span className="text-lg">This field is required</span>
                       ),
                     },
                   ]}
                 >
                   <Input
-                    className="w-[100%] h-12"
+                    className="w-[100%] text-[17px] h-[42px]"
                     placeholder="ENTER INSURED NAME"
+                    onInput={(e) =>
+                      (e.target.value = e.target.value.toUpperCase())
+                    }
                     onChange={(e) => setName(e.target.value)}
                   />
                 </Form.Item>
               </div>
 
               <div className="w-1/3">
-                <div className="text-xl text-blue font-semibold mb-2">
+                <div className="text-lg text-blue font-semibold mb-2">
                   Date of Birth &#40;as per passport&#41;{" "}
                   <span className="text-red">*</span>
                 </div>
@@ -487,13 +498,13 @@ const InboundFormPage = ({
                     {
                       required: true,
                       message: (
-                        <span className="text-xl">This field is required</span>
+                        <span className="text-lg">This field is required</span>
                       ),
                     },
                   ]}
                 >
                   <DatePicker
-                    className="w-[100%] h-12"
+                    className="w-[100%] h-[42px]"
                     onChange={(value) => {
                       const date = new Date(value);
                       setDob(date);
@@ -503,7 +514,7 @@ const InboundFormPage = ({
               </div>
 
               <div className="w-1/3">
-                <div className="text-xl text-blue font-semibold mb-2">
+                <div className="text-lg text-blue font-semibold mb-2">
                   Gender &#40;as per passport&#41;{" "}
                   <span className="text-red">*</span>
                 </div>
@@ -513,13 +524,13 @@ const InboundFormPage = ({
                     {
                       required: true,
                       message: (
-                        <span className="text-xl">This field is required</span>
+                        <span className="text-lg">This field is required</span>
                       ),
                     },
                   ]}
                 >
                   <Select
-                    className="w-[100%] h-12"
+                    className="w-[100%] h-[42px]"
                     placeholder="SELECT ONE"
                     options={genderOptions}
                     onChange={(value) => setGender(value)}
@@ -529,7 +540,7 @@ const InboundFormPage = ({
             </div>
             <div className="flex justify-between gap-8 mb-2">
               <div className="w-1/3">
-                <div className="text-xl text-blue font-semibold mb-2">
+                <div className="text-lg text-blue font-semibold mb-2">
                   Estimated Arrival Date <span className="text-red">*</span>
                 </div>
                 <Form.Item
@@ -538,13 +549,13 @@ const InboundFormPage = ({
                     {
                       required: true,
                       message: (
-                        <span className="text-xl">This field is required</span>
+                        <span className="text-lg">This field is required</span>
                       ),
                     },
                   ]}
                 >
                   <DatePicker
-                    className="w-[100%] h-12"
+                    className="w-[100%] h-[42px]"
                     onChange={(value) => {
                       const date = new Date(value);
                       setEstimatedArrivalDate(date);
@@ -553,7 +564,7 @@ const InboundFormPage = ({
                 </Form.Item>
               </div>
               <div className="w-1/3">
-                <div className="text-xl text-blue font-semibold mb-2">
+                <div className="text-lg text-blue font-semibold mb-2">
                   Journey From <span className="text-red">*</span>
                 </div>
                 <Form.Item
@@ -562,13 +573,13 @@ const InboundFormPage = ({
                     {
                       required: true,
                       message: (
-                        <span className="text-xl">This field is required</span>
+                        <span className="text-lg">This field is required</span>
                       ),
                     },
                   ]}
                 >
                   <Select
-                    className="w-[100%] h-12"
+                    className="w-[100%] h-[42px]"
                     placeholder="SELECT ONE"
                     options={countryNameList}
                     onChange={(value) => setJourneyFrom(value)}
@@ -576,15 +587,19 @@ const InboundFormPage = ({
                 </Form.Item>
               </div>
               <div className="w-1/3">
-                <div className="text-xl text-blue font-semibold mb-2">
+                <div className="text-lg text-blue font-semibold mb-2">
                   Journey To <span className="text-red">*</span>
                 </div>
-                <Select className="w-[100%] h-12" value="MYANMAR" disabled />
+                <Select
+                  className="w-[100%] h-[42px]"
+                  value="MYANMAR"
+                  disabled
+                />
               </div>
             </div>
             <div className="flex justify-between gap-8 mb-2">
               <div className="w-1/3">
-                <div className="text-xl text-blue font-semibold mb-2">
+                <div className="text-lg text-blue font-semibold mb-2">
                   Coverage Plan <span className="text-red">*</span>
                 </div>
                 <Form.Item
@@ -593,13 +608,13 @@ const InboundFormPage = ({
                     {
                       required: true,
                       message: (
-                        <span className="text-xl">This field is required</span>
+                        <span className="text-lg">This field is required</span>
                       ),
                     },
                   ]}
                 >
                   <Select
-                    className="w-[100%] h-12"
+                    className="w-[100%] h-[42px]"
                     placeholder="SELECT ONE"
                     options={coveragePlanOptions}
                     onChange={(value) => setCoveragePlan(value)}
@@ -607,30 +622,30 @@ const InboundFormPage = ({
                 </Form.Item>
               </div>
               <div className="w-1/3">
-                <div className="text-xl text-blue font-semibold mb-2">
+                <div className="text-lg text-blue font-semibold mb-2">
                   Insured's Contact Phone Number{" "}
                   <span className="text-red">*</span>
                 </div>
 
                 <div className="flex ">
                   <Select
-                    className="w-[25%] h-12"
+                    className="w-[25%] h-[42px]"
                     placeholder="SELECT ONE"
                     options={countryCodeList}
                     onChange={(value) => setCountryCode(value)}
                   />
                   <Input
-                    className="w-[75%] h-12"
+                    className="w-[75%]  text-[17px] h-[42px]"
                     onChange={(e) => setPhoneNo(e.target.value)}
                   />
                 </div>
               </div>
               <div className="w-1/3">
-                <div className="text-xl text-blue font-semibold mb-2">
+                <div className="text-lg text-blue font-semibold mb-2">
                   Insured Email
                 </div>
                 <Input
-                  className="w-[100%] h-12"
+                  className="w-[100%]  text-[17px] h-[42px]"
                   placeholder="Insured's Email Address"
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -638,7 +653,7 @@ const InboundFormPage = ({
             </div>
             <div className="flex justify-between gap-8 mb-2">
               <div className="w-1/3">
-                <div className="text-xl text-blue font-semibold mb-2">
+                <div className="text-lg text-blue font-semibold mb-2">
                   Address in Myanmar &#40;Max: 250 Char&#41;{" "}
                   <span className="text-red">*</span>
                 </div>
@@ -648,21 +663,24 @@ const InboundFormPage = ({
                     {
                       required: true,
                       message: (
-                        <span className="text-xl">This field is required</span>
+                        <span className="text-lg">This field is required</span>
                       ),
                     },
                   ]}
                 >
                   <Input.TextArea
-                    className="w-[100%]"
-                    rows={8}
+                    className="w-[100%] text-[17px]"
+                    rows={7}
+                    onInput={(e) =>
+                      (e.target.value = e.target.value.toUpperCase())
+                    }
                     onChange={(e) => setAddressInMyanmar(e.target.value)}
                   />
                 </Form.Item>
               </div>
 
               <div className="w-1/3">
-                <div className="text-xl text-blue font-semibold mb-2">
+                <div className="text-lg text-blue font-semibold mb-2">
                   Resident Address &#40;Max: 250 Char&#41;{" "}
                   <span className="text-red">*</span>
                 </div>
@@ -672,21 +690,24 @@ const InboundFormPage = ({
                     {
                       required: true,
                       message: (
-                        <span className="text-xl">This field is required</span>
+                        <span className="text-lg">This field is required</span>
                       ),
                     },
                   ]}
                 >
                   <Input.TextArea
-                    className="w-[100%]"
-                    rows={8}
+                    className="w-[100%] text-[17px]"
+                    rows={7}
+                    onInput={(e) =>
+                      (e.target.value = e.target.value.toUpperCase())
+                    }
                     onChange={(e) => setResidentAddress(e.target.value)}
                   />
                 </Form.Item>
               </div>
 
               <div className="w-1/3">
-                <div className="text-xl text-blue font-semibold mb-2">
+                <div className="text-lg text-blue font-semibold mb-2">
                   Resident Country <span className="text-red">*</span>
                 </div>
                 <Form.Item
@@ -695,13 +716,13 @@ const InboundFormPage = ({
                     {
                       required: true,
                       message: (
-                        <span className="text-xl">This field is required</span>
+                        <span className="text-lg">This field is required</span>
                       ),
                     },
                   ]}
                 >
                   <Select
-                    className="w-[100%] h-12"
+                    className="w-[100%] h-[42px]"
                     placeholder="SELECT ONE"
                     options={countryNameList}
                     onChange={(value) => setResidentCountry(value)}
@@ -711,13 +732,13 @@ const InboundFormPage = ({
             </div>
             {isForChild && (
               <div className="bg-childBackground p-5 rounded mt-5">
-                <div className="text-xl text-blue font-bold underline mb-3">
+                <div className="text-lg text-blue font-bold underline mb-3">
                   CHILD INFORMATION &#40;CHILD IS NOT HOLDING A VALID
                   PASSPORT&#41;
                 </div>
                 <div className="flex justify-between gap-8 mb-2">
                   <div className="w-1/3">
-                    <div className="text-xl text-blue font-semibold mb-2">
+                    <div className="text-lg text-blue font-semibold mb-2">
                       Child Name <span className="text-red">*</span>
                     </div>
                     <Form.Item
@@ -726,7 +747,7 @@ const InboundFormPage = ({
                         {
                           required: true,
                           message: (
-                            <span className="text-xl">
+                            <span className="text-lg">
                               This field is required
                             </span>
                           ),
@@ -734,15 +755,18 @@ const InboundFormPage = ({
                       ]}
                     >
                       <Input
-                        className="w-[100%] h-12"
+                        className="w-[100%] text-[17px] h-[42px]"
                         placeholder="ENTER CHILD NAME"
+                        onInput={(e) =>
+                          (e.target.value = e.target.value.toUpperCase())
+                        }
                         onChange={(e) => setChildName(e.target.value)}
                       />
                     </Form.Item>
                   </div>
 
                   <div className="w-1/3">
-                    <div className="text-xl text-blue font-semibold mb-2">
+                    <div className="text-lg text-blue font-semibold mb-2">
                       Date of Birth <span className="text-red">*</span>
                     </div>
                     <Form.Item
@@ -751,7 +775,7 @@ const InboundFormPage = ({
                         {
                           required: true,
                           message: (
-                            <span className="text-xl">
+                            <span className="text-lg">
                               This field is required
                             </span>
                           ),
@@ -759,7 +783,7 @@ const InboundFormPage = ({
                       ]}
                     >
                       <DatePicker
-                        className="w-[100%] h-12"
+                        className="w-[100%] h-[42px]"
                         onChange={(value) => {
                           const date = new Date(value);
                           setChildDob(date);
@@ -769,7 +793,7 @@ const InboundFormPage = ({
                   </div>
 
                   <div className="w-1/3">
-                    <div className="text-xl text-blue font-semibold mb-2">
+                    <div className="text-lg text-blue font-semibold mb-2">
                       Gender <span className="text-red">*</span>
                     </div>
                     <Form.Item
@@ -778,7 +802,7 @@ const InboundFormPage = ({
                         {
                           required: true,
                           message: (
-                            <span className="text-xl">
+                            <span className="text-lg">
                               This field is required
                             </span>
                           ),
@@ -786,7 +810,7 @@ const InboundFormPage = ({
                       ]}
                     >
                       <Select
-                        className="w-[100%] h-12"
+                        className="w-[100%] h-[42px]"
                         placeholder="SELECT ONE"
                         options={genderOptions}
                         onChange={(value) => setChildGender(value)}
@@ -796,7 +820,7 @@ const InboundFormPage = ({
                 </div>
                 <div className="flex justify-between gap-8 mb-2">
                   <div className="w-1/3">
-                    <div className="text-xl text-blue font-semibold mb-2">
+                    <div className="text-lg text-blue font-semibold mb-2">
                       Guardiance Name <span className="text-red">*</span>
                     </div>
                     <Form.Item
@@ -805,7 +829,7 @@ const InboundFormPage = ({
                         {
                           required: true,
                           message: (
-                            <span className="text-xl">
+                            <span className="text-lg">
                               This field is required
                             </span>
                           ),
@@ -813,14 +837,17 @@ const InboundFormPage = ({
                       ]}
                     >
                       <Input
-                        className="w-[100%] h-12"
+                        className="w-[100%] text-[17px] h-[42px]"
                         placeholder="ENTER GUARDIANCE NAME"
+                        onInput={(e) =>
+                          (e.target.value = e.target.value.toUpperCase())
+                        }
                         onChange={(e) => setChildGuardianceName(e.target.value)}
                       />
                     </Form.Item>
                   </div>
                   <div className="w-1/3">
-                    <div className="text-xl text-blue font-semibold mb-2">
+                    <div className="text-lg text-blue font-semibold mb-2">
                       Relationship <span className="text-red">*</span>
                     </div>
                     <Form.Item
@@ -829,7 +856,7 @@ const InboundFormPage = ({
                         {
                           required: true,
                           message: (
-                            <span className="text-xl">
+                            <span className="text-lg">
                               This field is required
                             </span>
                           ),
@@ -837,15 +864,18 @@ const InboundFormPage = ({
                       ]}
                     >
                       <Input
-                        className="w-[100%] h-12"
+                        className="w-[100%] text-[17px] h-[42px]"
                         placeholder="ENTER RELATIONSHIP"
+                        onInput={(e) =>
+                          (e.target.value = e.target.value.toUpperCase())
+                        }
                         onChange={(e) => setChildRelationship(e.target.value)}
                       />
                     </Form.Item>
                   </div>
 
                   <div className="w-1/3">
-                    <div className="w-[100%] h-12"></div>
+                    <div className="w-[100%] h-[42px]"></div>
                   </div>
                 </div>
               </div>
@@ -854,12 +884,12 @@ const InboundFormPage = ({
             <hr className="my-8 text-bgColor" />
           </div>
           <div className="w-full">
-            <div className="text-xl text-blue font-bold underline mb-3">
+            <div className="text-lg text-blue font-bold underline mb-3">
               BENEFICIARY INFORMATION &#40;In English &#41;
             </div>
             <div className="flex justify-between gap-8 mb-2">
               <div className="w-1/3">
-                <div className="text-xl text-blue font-semibold mb-2">
+                <div className="text-lg text-blue font-semibold mb-2">
                   Name <span className="text-red">*</span>
                 </div>
                 <Form.Item
@@ -868,21 +898,24 @@ const InboundFormPage = ({
                     {
                       required: true,
                       message: (
-                        <span className="text-xl">This field is required</span>
+                        <span className="text-lg">This field is required</span>
                       ),
                     },
                   ]}
                 >
                   <Input
-                    className="w-[100%] h-12"
+                    className="w-[100%] text-[17px] h-[42px]"
                     placeholder="ENTER NAME"
+                    onInput={(e) =>
+                      (e.target.value = e.target.value.toUpperCase())
+                    }
                     onChange={(e) => setBeneficiaryName(e.target.value)}
                   />
                 </Form.Item>
               </div>
 
               <div className="w-1/3">
-                <div className="text-xl text-blue font-semibold mb-2">
+                <div className="text-lg text-blue font-semibold mb-2">
                   Date of Birth <span className="text-red">*</span>
                 </div>
                 <Form.Item
@@ -891,13 +924,13 @@ const InboundFormPage = ({
                     {
                       required: true,
                       message: (
-                        <span className="text-xl">This field is required</span>
+                        <span className="text-lg">This field is required</span>
                       ),
                     },
                   ]}
                 >
                   <DatePicker
-                    className="w-[100%] h-12"
+                    className="w-[100%] h-[42px]"
                     onChange={(value) => {
                       const date = new Date(value);
                       setBeneficiaryDob(date);
@@ -907,19 +940,22 @@ const InboundFormPage = ({
               </div>
 
               <div className="w-1/3">
-                <div className="text-xl text-blue font-semibold mb-2">
+                <div className="text-lg text-blue font-semibold mb-2">
                   National Identificaiton Number
                 </div>
                 <Input
-                  className="w-[100%] h-12"
+                  className="w-[100%] text-[17px] h-[42px]"
                   placeholder="ENTER NATIONAL IDENTIFICATION NUMBER"
+                  onInput={(e) =>
+                    (e.target.value = e.target.value.toUpperCase())
+                  }
                   onChange={(e) => setBeneficiaryNin(e.target.value)}
                 />
               </div>
             </div>
             <div className="flex justify-between gap-8 mb-2">
               <div className="w-1/3">
-                <div className="text-xl text-blue font-semibold mb-2">
+                <div className="text-lg text-blue font-semibold mb-2">
                   Relationship <span className="text-red">*</span>
                 </div>
                 <Form.Item
@@ -928,32 +964,35 @@ const InboundFormPage = ({
                     {
                       required: true,
                       message: (
-                        <span className="text-xl">This field is required</span>
+                        <span className="text-lg">This field is required</span>
                       ),
                     },
                   ]}
                 >
                   <Input
-                    className="w-[100%] h-12"
+                    className="w-[100%] text-[17px] h-[42px]"
                     placeholder="ENTER RELATIONSHIP"
+                    onInput={(e) =>
+                      (e.target.value = e.target.value.toUpperCase())
+                    }
                     onChange={(e) => setBeneficiaryRelationship(e.target.value)}
                   />
                 </Form.Item>
               </div>
 
               <div className="w-1/3">
-                <div className="text-xl text-blue font-semibold mb-2">
+                <div className="text-lg text-blue font-semibold mb-2">
                   Contact Phone Number <span className="text-red">*</span>
                 </div>
                 <div className="flex ">
                   <Select
-                    className="w-[25%] h-12"
+                    className="w-[25%] h-[42px]"
                     placeholder="SELECT ONE"
                     options={countryCodeList}
                     onChange={(value) => setBeneficiaryCountryCode(value)}
                   />
                   <Input
-                    className="w-[75%] h-12"
+                    className="w-[75%] text-[17px] h-[42px]"
                     placeholder="ENTER INSURED'S CONTACT PHONE NUMBER"
                     onChange={(e) => setBeneficiaryPhoneNo(e.target.value)}
                   />
@@ -961,11 +1000,11 @@ const InboundFormPage = ({
               </div>
 
               <div className="w-1/3">
-                <div className="text-xl text-blue font-semibold mb-2">
+                <div className="text-lg text-blue font-semibold mb-2">
                   Email
                 </div>
                 <Input
-                  className="w-[100%] h-12"
+                  className="w-[100%] text-[17px] h-[42px]"
                   placeholder="ENTER EMAIL"
                   onChange={(e) => setBeneficiaryEmail(e.target.value)}
                 />
@@ -973,7 +1012,7 @@ const InboundFormPage = ({
             </div>
             <div className="flex justify-between gap-8 mb-2">
               <div className="w-1/3">
-                <div className="text-xl text-blue font-semibold mb-2">
+                <div className="text-lg text-blue font-semibold mb-2">
                   Resident Address &#40;Max: 250 Char&#41;{" "}
                   <span className="text-red">*</span>
                 </div>
@@ -983,14 +1022,17 @@ const InboundFormPage = ({
                     {
                       required: true,
                       message: (
-                        <span className="text-xl">This field is required</span>
+                        <span className="text-lg">This field is required</span>
                       ),
                     },
                   ]}
                 >
                   <Input.TextArea
-                    className="w-[100%]"
-                    rows={8}
+                    className="w-[100%] text-[17px]"
+                    rows={7}
+                    onInput={(e) =>
+                      (e.target.value = e.target.value.toUpperCase())
+                    }
                     onChange={(e) =>
                       setBeneficiaryResidentAddress(e.target.value)
                     }
@@ -998,7 +1040,7 @@ const InboundFormPage = ({
                 </Form.Item>
               </div>
               <div className="w-1/3">
-                <div className="text-xl text-blue font-semibold mb-2">
+                <div className="text-lg text-blue font-semibold mb-2">
                   Resident Country <span className="text-red">*</span>
                 </div>
                 <Form.Item
@@ -1007,13 +1049,13 @@ const InboundFormPage = ({
                     {
                       required: true,
                       message: (
-                        <span className="text-xl">This field is required</span>
+                        <span className="text-lg">This field is required</span>
                       ),
                     },
                   ]}
                 >
                   <Select
-                    className="w-[100%] h-12"
+                    className="w-[100%] h-[42px]"
                     placeholder="SELECT ONE"
                     options={countryNameList}
                     onChange={(value) => setBeneficiaryResidentCountry(value)}
@@ -1027,7 +1069,7 @@ const InboundFormPage = ({
           </div>
 
           <section name="agent" className="bg-childBackground p-5  mt-5">
-            <div className="text-xl text-blue font-bold underline mb-5">
+            <div className="text-lg text-blue font-bold underline mb-5">
               This section is only used for servicing agent of Myanma Insurance
             </div>
             <div>
@@ -1038,7 +1080,7 @@ const InboundFormPage = ({
               >
                 <Radio
                   value={false}
-                  className="w-1/3 text-xl text-blue font-bold"
+                  className="w-1/3 text-lg text-blue font-bold"
                 >
                   <div className="flex items-center bg-white w-60 h-16 p-3 gap-2">
                     <div className="w-12 h-12">
@@ -1050,7 +1092,7 @@ const InboundFormPage = ({
                 <Radio
                   value={true}
                   onClick={showAgentModal}
-                  className="w-2/3 text-xl text-blue font-bold "
+                  className="w-2/3 text-lg text-blue font-bold "
                 >
                   <div className="flex items-center bg-white w-80 h-16 p-3 gap-2">
                     <div>
@@ -1072,14 +1114,18 @@ const InboundFormPage = ({
                     placeholder="AGENT LICENSE NUMBER"
                     disabled
                     value={licenseNo}
-                    className="w-[100%] h-12"
+                    className="w-[100%] text-[17px] h-[42px]"
                   />
                 </div>
                 <div className="w-1/3">
                   <div className="mb-3 text-lg text-blue font-bold">
                     Name <span className="text-red">*</span>
                   </div>
-                  <Input disabled value={agentName} className="w-[100%] h-12" />
+                  <Input
+                    disabled
+                    value={agentName}
+                    className="w-[100%] text-[17px] h-[42px]"
+                  />
                 </div>
                 <div className="w-1/3">
                   <div className="h-12"></div>
@@ -1119,7 +1165,7 @@ const InboundFormPage = ({
           okText="Check Agent"
           centered
         >
-          <div className="text-xl mt-5 mb-3">
+          <div className="text-lg mt-5 mb-3">
             <div className="text-blue font-bold mb-2">
               Agent License Number <span className="text-red">*</span>
             </div>
@@ -1129,7 +1175,7 @@ const InboundFormPage = ({
               onChange={(e) => setAgentLicenseNo(e.target.value.toUpperCase())}
             />
           </div>
-          <div className="text-xl mb-3">
+          <div className="text-lg mb-3">
             <div className="text-blue font-bold mb-2">
               Password <span className="text-red">*</span>
             </div>

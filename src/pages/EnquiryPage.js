@@ -70,6 +70,7 @@ const EnquiryPage = () => {
             ...d,
             key: d.id,
             number: index + 1,
+            insuredPersonName: d.isChild ? d.childName : d.insuredPersonName,
             download: (
               <PDFDownloadLink document={MyDocument(d)}>
                 Download
@@ -218,13 +219,15 @@ const EnquiryPage = () => {
               </View>
               <View style={styles.section2}>
                 <Text style={{ width: "100px" }}>Journey From</Text>
-                <Text>: {d.journeyFrom}</Text>
+                <Text>: {d.journeyFrom.toUpperCase()}</Text>
               </View>
               <View style={styles.section2}>
                 <Text style={{ width: "100px" }}>PP/Country</Text>
                 <View>
                   <Text>: {d.passportNo}</Text>
-                  <Text>: {d.passportIssuedCountry}</Text>
+                  <Text style={{ fontSize: "9px" }}>
+                    &nbsp;&nbsp;{d.passportIssuedCountry}
+                  </Text>
                 </View>
               </View>
               <View style={styles.section2}>
@@ -246,6 +249,154 @@ const EnquiryPage = () => {
           <Text style={{ fontSize: "10px", padding: 5, marginLeft: 40 }}>
             This Certificate of Insurance confirms coverage for :
           </Text>
+          <View style={{ fontSize: "10px", padding: 5, marginLeft: 40 }}>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                backgroundColor: "#f1f5f9",
+                border: "1px solid black",
+                width: "500px",
+              }}
+            >
+              <View
+                style={{
+                  borderRight: "1px solid black",
+                  paddingTop: 5,
+                  paddingBottom: 5,
+
+                  width: "100px",
+                }}
+              >
+                <Text style={{ margin: "0 auto", padding: 5 }}>
+                  Insured's Name
+                </Text>
+              </View>
+              <View
+                style={{
+                  borderRight: "1px solid black",
+                  paddingTop: 5,
+                  paddingBottom: 5,
+
+                  width: "90px",
+                }}
+              >
+                <Text style={{ margin: "0 auto", padding: 5 }}>
+                  Date of birth
+                </Text>
+              </View>
+              <View
+                style={{
+                  borderRight: "1px solid black",
+                  paddingTop: 5,
+                  paddingBottom: 5,
+
+                  width: "70px",
+                }}
+              >
+                <Text style={{ margin: "0 auto", padding: 5 }}>Age</Text>
+              </View>
+              <View
+                style={{
+                  borderRight: "1px solid black",
+                  paddingTop: 5,
+                  paddingBottom: 5,
+
+                  width: "100px",
+                }}
+              >
+                <Text style={{ margin: "0 auto", padding: 5 }}>
+                  Insurance Period
+                </Text>
+              </View>
+              <View
+                style={{
+                  paddingTop: 5,
+                  paddingBottom: 5,
+
+                  width: "140px",
+                }}
+              >
+                <Text style={{ margin: "0 auto", padding: 5 }}>
+                  Passport No
+                </Text>
+              </View>
+            </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                borderRight: "1px solid black",
+                borderBottom: "1px solid black",
+                borderLeft: "1px solid black",
+                width: "500px",
+              }}
+            >
+              <View
+                style={{
+                  borderRight: "1px solid black",
+                  paddingTop: 5,
+                  paddingBottom: 5,
+
+                  width: "100px",
+                }}
+              >
+                <Text style={{ margin: "3px auto" }}>
+                  {d.isChild ? d.childName : d.insuredPersonName}
+                </Text>
+              </View>
+              <View
+                style={{
+                  borderRight: "1px solid black",
+                  paddingTop: 5,
+                  paddingBottom: 5,
+
+                  width: "90px",
+                }}
+              >
+                <Text style={{ margin: "3px auto" }}>
+                  {d.isChild ? d.childDob : d.insuredPersondob}
+                </Text>
+              </View>
+              <View
+                style={{
+                  borderRight: "1px solid black",
+                  paddingTop: 5,
+                  paddingBottom: 5,
+
+                  width: "70px",
+                }}
+              >
+                <Text style={{ margin: "3px auto" }}>{d.age}</Text>
+              </View>
+              <View
+                style={{
+                  borderRight: "1px solid black",
+                  paddingTop: 5,
+                  paddingBottom: 5,
+
+                  width: "100px",
+                }}
+              >
+                <Text style={{ margin: "3px auto" }}>
+                  {d.coveragePlan} Days
+                </Text>
+              </View>
+              <View
+                style={{
+                  paddingTop: 5,
+                  paddingBottom: 5,
+
+                  width: "140px",
+                }}
+              >
+                <Text style={{ margin: "0 auto" }}>{d.passportNo}</Text>
+                <Text style={{ margin: "0 auto", fontSize: "9px" }}>
+                  {d.passportIssuedCountry}
+                </Text>
+              </View>
+            </View>
+          </View>
           <Image src={img1} />
         </View>
       </Page>
@@ -367,9 +518,6 @@ const EnquiryPage = () => {
           )}
           {noRecord && <div className="text-red">No Records</div>}
         </div>
-        {/* <PDFViewer className="w-full h-[1000px]">
-          <MyDocument />
-        </PDFViewer> */}
       </div>
     </div>
   );

@@ -196,9 +196,7 @@ function App() {
               setCountryCodeList={setCountryCodeList}
               // Insured Person
               passportNumber={passportNumber}
-              setPassportNumber={setPassportNumber}
               passportIssuedDate={passportIssuedDate}
-              setPassportIssuedDate={setPassportIssuedDate}
               passportIssuedCountry={passportIssuedCountry}
               setPassportIssuedCountry={setPassportIssuedCountry}
               isForChild={isForChild}

@@ -3,11 +3,16 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {},
+    fontFamily: {
+      sans: ["Pyidaungsu", "Helvetica", "Arial", "sans-serif"],
+      serif: ["ui-serif", "Georgia"],
+      mono: ["ui-monospace", "SFMono-Regular"],
+    },
     colors: {
       transparent: "transparent",
       current: "currentColor",
       white: "#ffffff",
-      blue: "#074DA1",
+      blue: "#074ca1",
       yellow: "#FFEF00",
       cyan: "#67e8f9",
       bgColor: "#abb8c3",
