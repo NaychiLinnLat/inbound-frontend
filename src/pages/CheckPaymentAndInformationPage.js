@@ -5,6 +5,10 @@ import { dateformat } from "../utils/dateformat";
 import { useNavigate } from "react-router-dom";
 
 const CheckPaymentAndInformationPage = ({
+  form,
+  isFromCreate,
+  setIsFromCreate,
+
   countryNameList,
   setCountryNameList,
   countryCodeList,
@@ -138,7 +142,8 @@ const CheckPaymentAndInformationPage = ({
   };
   const handleCancel = () => {
     setIsModalOpen(false);
-    navigate("/#home");
+    setIsFromCreate(true);
+    navigate("/");
   };
 
   const createInboundProposal = async () => {
@@ -195,7 +200,8 @@ const CheckPaymentAndInformationPage = ({
     formData.append(
       "policyEndDate",
       dateformat(
-        estimatedArrivalDate.getTime() + coveragePlan * 24 * 60 * 60 * 1000
+        new Date(estimatedArrivalDate).getTime() +
+          coveragePlan * 24 * 60 * 60 * 1000
       )
     );
 
@@ -213,7 +219,7 @@ const CheckPaymentAndInformationPage = ({
   }, [serviceFee]);
 
   return (
-    <div className="w-[95%] mx-auto rounded bg-white">
+    <div className="w-[87%] mx-auto rounded shadow-2xl bg-white">
       <div className="p-10">
         <div className="text-3xl text-blue font-bold mb-10">
           PLEASE CHECK PAYMENT AND INSURED PERSON INFORMATION

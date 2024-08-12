@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 
 const Userlayout = () => {
   return (
-    <div className="bg-slate">
+    <div className="bg-slate tracking-[-0.035em]">
       <Heading />
       <Outlet />
       <Footer />

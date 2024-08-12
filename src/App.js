@@ -1,12 +1,16 @@
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useState } from "react";
+import { Form } from "antd";
 import Userlayout from "./layouts/layout";
 import InboundFormPage from "./pages/InboundFormPage";
 import CheckPaymentAndInformationPage from "./pages/CheckPaymentAndInformationPage";
 import EnquiryPage from "./pages/EnquiryPage";
 
 function App() {
+  const [form] = Form.useForm();
+  const [isFromCreate, setIsFromCreate] = useState(false);
+
   const [countryNameList, setCountryNameList] = useState([]);
   const [countryCodeList, setCountryCodeList] = useState([]);
 
@@ -68,6 +72,7 @@ function App() {
 
   const [isAgentModalOpen, setIsAgentModalOpen] = useState(false);
   const [agentLoading, setAgentLoading] = useState(false);
+  const [noAgent, setNoAgent] = useState(false);
 
   const [agentLicenseNo, setAgentLicenseNo] = useState(null);
   const [agentPassword, setAgentPassword] = useState(null);
@@ -88,6 +93,9 @@ function App() {
           index: "/",
           element: (
             <InboundFormPage
+              form={form}
+              isFromCreate={isFromCreate}
+              setIsFromCreate={setIsFromCreate}
               countryNameList={countryNameList}
               setCountryNameList={setCountryNameList}
               countryCodeList={countryCodeList}
@@ -170,6 +178,8 @@ function App() {
               setIsAgentModalOpen={setIsAgentModalOpen}
               agentLoading={agentLoading}
               setAgentLoading={setAgentLoading}
+              noAgent={noAgent}
+              setNoAgent={setNoAgent}
               agentLicenseNo={agentLicenseNo}
               setAgentLicenseNo={setAgentLicenseNo}
               agentPassword={agentPassword}
@@ -190,6 +200,9 @@ function App() {
           path: "/checkinfo",
           element: (
             <CheckPaymentAndInformationPage
+              form={form}
+              isFromCreate={isFromCreate}
+              setIsFromCreate={setIsFromCreate}
               countryNameList={countryNameList}
               setCountryNameList={setCountryNameList}
               countryCodeList={countryCodeList}
@@ -288,7 +301,12 @@ function App() {
         },
         {
           path: "/enquiry",
-          element: <EnquiryPage />,
+          element: (
+            <EnquiryPage
+              isFromCreate={isFromCreate}
+              setIsFromCreate={setIsFromCreate}
+            />
+          ),
         },
       ],
     },

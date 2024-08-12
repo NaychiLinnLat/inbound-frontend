@@ -1,4 +1,4 @@
-import { Input, Select, Button, Form, Table } from "antd";
+import { Input, Select, Button, Form, Table, ConfigProvider } from "antd";
 import { useEffect, useState } from "react";
 import {
   PDFViewer,
@@ -21,7 +21,7 @@ import img5 from "../assets/img/img5.jpg";
 import img6 from "../assets/img/img6.jpg";
 import img7 from "../assets/img/img7.jpg";
 
-const EnquiryPage = () => {
+const EnquiryPage = ({ isFromCreate, setIsFromCreate }) => {
   const [hasProposal, setHasProposal] = useState(null);
   const [noRecord, setNoRecord] = useState(null);
   const [countryNameList, setCountryNameList] = useState(null);
@@ -73,7 +73,7 @@ const EnquiryPage = () => {
             insuredPersonName: d.isChild ? d.childName : d.insuredPersonName,
             download: (
               <PDFDownloadLink document={MyDocument(d)}>
-                Download
+                <Button>Download</Button>
               </PDFDownloadLink>
             ),
           };
@@ -96,55 +96,64 @@ const EnquiryPage = () => {
       title: "No.",
       dataIndex: "number",
       key: "number",
-      width: "10%",
+      width: "5%",
+      align: "center",
     },
     {
       title: "Certificate No.",
       dataIndex: "certificateNo",
       key: "certificateNo",
       width: "10%",
+      align: "center",
     },
     {
       title: "Insured Name",
       dataIndex: "insuredPersonName",
       key: "insuredPersonName",
       width: "10%",
+      align: "center",
     },
     {
       title: "Age",
       dataIndex: "age",
       key: "age",
-      width: "10%",
+      width: "7%",
+      align: "center",
     },
     {
       title: "Contact No.",
       dataIndex: "phoneNo",
       key: "phoneNo",
       width: "10%",
+      align: "center",
     },
     {
       title: "Coverage Plan (Days)",
       dataIndex: "coveragePlan",
       key: "coveragePlan",
       width: "10%",
+      align: "center",
     },
     {
       title: "Premium Amount (USD)",
       dataIndex: "premiumRate",
       key: "premiumRate",
-      width: "10%",
+      width: "13%",
+      align: "center",
     },
     {
       title: "Payment Date",
       dataIndex: "submittedDate",
       key: "submittedDate",
       width: "10%",
+      align: "center",
     },
     {
       title: "Download",
       dataIndex: "download",
       key: "download",
       width: "10%",
+      align: "center",
     },
   ];
 
@@ -161,8 +170,8 @@ const EnquiryPage = () => {
     column: {
       display: "flex",
       flexDirection: "row",
-      marginTop: "20px",
-      marginBottom: "20px",
+      marginTop: "5x",
+      marginBottom: "10px",
     },
     section1: {
       fontSize: "10px",
@@ -174,7 +183,7 @@ const EnquiryPage = () => {
     },
     section2: {
       fontSize: "10px",
-      marginLeft: 100,
+      marginLeft: 80,
       padding: 5,
       flexGrow: 1,
       width: "200px",
@@ -240,16 +249,29 @@ const EnquiryPage = () => {
               </View>
             </View>
           </View>
-          <Text style={{ fontSize: "10px", padding: 5, marginLeft: 40 }}>
+          <Text
+            style={{
+              fontSize: "9px",
+              padding: 5,
+              marginLeft: 40,
+            }}
+          >
             {d.isChild
-              ? `BUY FOR THE CHILD TRAVEL TOGETHER WITH THIS PASSPORT HOLDER
-(CHILD IS NOT HOLDING A VALID PASSPORT)`
+              ? `Buy for the child travel together with this passport holder
+(child is not holding a valid passport)`
               : `Buy for yourself (This passport holder)`}
           </Text>
           <Text style={{ fontSize: "10px", padding: 5, marginLeft: 40 }}>
             This Certificate of Insurance confirms coverage for :
           </Text>
-          <View style={{ fontSize: "10px", padding: 5, marginLeft: 40 }}>
+          <View
+            style={{
+              fontSize: "10px",
+              padding: 5,
+              marginLeft: 40,
+              marginBottom: 5,
+            }}
+          >
             <View
               style={{
                 display: "flex",
@@ -435,11 +457,11 @@ const EnquiryPage = () => {
 
   return (
     <div className="w-full">
-      <div className="w-[90%] mx-auto">
+      <div className="w-[87%] mx-auto ">
         <div className="flex justify-center text-2xl font-bold text-blue my-4">
-          INBOUND TRAVEL ACCIDENT INSURAN
+          INBOUND TRAVEL ACCIDENT INSURANCE
         </div>
-        <div className="bg-white rounded p-10">
+        <div className="bg-white rounded p-10 shadow-2xl rounded">
           <Form
             layout="vertical"
             name="form_in_modal"
@@ -468,8 +490,11 @@ const EnquiryPage = () => {
                   ]}
                 >
                   <Input
-                    className="w-[80%] h-12"
+                    className="w-[80%] text-[17px] h-[42px]"
                     placeholder=". . ."
+                    onInput={(e) =>
+                      (e.target.value = e.target.value.toUpperCase())
+                    }
                     onChange={(e) => setPassportNumber(e.target.value)}
                   />
                 </Form.Item>
@@ -478,29 +503,46 @@ const EnquiryPage = () => {
                 <div className="text-xl text-blue font-semibold mb-3">
                   Passport Issued Country <span className="text-red">*</span>
                 </div>
-                <Form.Item
-                  name="passportIssuedCountry"
-                  rules={[
-                    {
-                      required: true,
-                      message: (
-                        <span className="text-xl">This field is required</span>
-                      ),
+                <ConfigProvider
+                  theme={{
+                    token: {
+                      fontSize: 17,
                     },
-                  ]}
+                    components: {
+                      Select: {
+                        optionFontSize: 17,
+                      },
+                    },
+                  }}
                 >
-                  <Select
-                    className="w-[80%] h-12"
-                    placeholder="SELECT ONE"
-                    options={countryNameList}
-                    onChange={(value) => setPassportIssuedCountry(value)}
-                  />
-                </Form.Item>
+                  <Form.Item
+                    name="passportIssuedCountry"
+                    className="w-[80%]"
+                    rules={[
+                      {
+                        required: true,
+                        message: (
+                          <span className="text-xl">
+                            This field is required
+                          </span>
+                        ),
+                      },
+                    ]}
+                  >
+                    <Select
+                      className="h-[42px]"
+                      placeholder="SELECT ONE"
+                      options={countryNameList}
+                      onChange={(value) => setPassportIssuedCountry(value)}
+                      showSearch={true}
+                    />
+                  </Form.Item>
+                </ConfigProvider>
               </div>
             </div>
-            <div className="mt-5">
+            <div className="">
               <button
-                className="bg-blue text-white text-xl px-8 py-3 rounded"
+                className="bg-blue text-white text-xl px-8 py-2 rounded"
                 type="submit"
               >
                 Search
@@ -509,11 +551,25 @@ const EnquiryPage = () => {
           </Form>
           {hasProposal && (
             <div className="">
-              <div className="text-2xl text-blue font-semibold mb-5">
+              <div className="text-2xl text-blue font-semibold mb-5 tracking-[-0.035em]">
                 Inbound Travel Accident Insurance Purchase History
               </div>
-
-              <Table dataSource={data} columns={columns} pagination={false} />
+              <ConfigProvider
+                theme={{
+                  token: {
+                    colorText: "#074ca1",
+                  },
+                  components: {
+                    Table: {
+                      /* here is your component tokens */
+                      headerBg: "#074ca1",
+                      headerColor: "#fff",
+                    },
+                  },
+                }}
+              >
+                <Table dataSource={data} columns={columns} pagination={false} />
+              </ConfigProvider>
             </div>
           )}
           {noRecord && <div className="text-red">No Records</div>}

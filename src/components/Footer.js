@@ -3,8 +3,8 @@ import footerLogo from "../assets/img/footerLogo.png";
 const Footer = () => {
   return (
     <div className="bg-white mt-10">
-      <hr />
-      <div className="flex">
+      <hr className="text-[#b5b4b0]" />
+      <div className="flex mt-4">
         <span className="mx-auto p-3 font-bold text-2xl text-blue">
           CONTACT PHONE NUMBER
         </span>

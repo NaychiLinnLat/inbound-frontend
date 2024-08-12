@@ -6,24 +6,24 @@ import { Dropdown } from "antd";
 
 const Heading = () => {
   const items = [
-    {
-      key: "1",
-      label: (
-        <a href="#" className="">
-          <span className="text-lg font-bold">
-            Background History of Myanma Insurance
-          </span>
-        </a>
-      ),
-    },
-    {
-      key: "2",
-      label: (
-        <a href="#">
-          <span className="text-lg font-bold">About Myanma Insurance</span>
-        </a>
-      ),
-    },
+    // {
+    //   key: "1",
+    //   label: (
+    //     <a href="#" className="">
+    //       <span className="text-lg font-bold">
+    //         Background History of Myanma Insurance
+    //       </span>
+    //     </a>
+    //   ),
+    // },
+    // {
+    //   key: "2",
+    //   label: (
+    //     <a href="#">
+    //       <span className="text-lg font-bold">About Myanma Insurance</span>
+    //     </a>
+    //   ),
+    // },
   ];
 
   return (
