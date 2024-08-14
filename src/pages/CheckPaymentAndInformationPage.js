@@ -8,6 +8,8 @@ const CheckPaymentAndInformationPage = ({
   form,
   isFromCreate,
   setIsFromCreate,
+  isCreatedModalOpen,
+  setIsCreatedModalOpen,
 
   countryNameList,
   setCountryNameList,
@@ -124,26 +126,16 @@ const CheckPaymentAndInformationPage = ({
   const [serviceFee, setServiceFee] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const navigate = useNavigate();
 
   const calculateServiceFee = () => {
-    const fee = parseFloat(premiumRate * 0.03627).toFixed(2);
+    const fee =
+      Math.round((premiumRate * 0.03627 + Number.EPSILON) * 100) / 100;
     setServiceFee(fee);
   };
   const calculateTotalAmount = () => {
-    const totalAmount = parseInt(premiumRate) + parseFloat(serviceFee);
+    const totalAmount = premiumRate + serviceFee;
     setTotalAmount(totalAmount);
-  };
-
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-    setIsFromCreate(true);
-    navigate("/");
   };
 
   const createInboundProposal = async () => {
@@ -177,14 +169,18 @@ const CheckPaymentAndInformationPage = ({
     formData.append("benefiCountry", beneficiaryResidentCountry);
 
     // Child
-    formData.append("childName", childName);
-    formData.append("childDob", dateformat(childDob));
-    formData.append("childGender", childGender);
-    formData.append("gurdianceName", childGuardianceName);
-    formData.append("childRelationship", childRelationship);
+    if (isForChild) {
+      formData.append("childName", childName);
+      formData.append("childDob", dateformat(childDob));
+      formData.append("childGender", childGender);
+      formData.append("gurdianceName", childGuardianceName);
+      formData.append("childRelationship", childRelationship);
+    }
 
     // Agent
-    formData.append("licenceNo", agentLicenseNo);
+    if (isAgent) {
+      formData.append("licenceNo", agentLicenseNo);
+    }
 
     // Inbound Proposal
     formData.append("arrivalDate", dateformat(estimatedArrivalDate));
@@ -207,10 +203,13 @@ const CheckPaymentAndInformationPage = ({
 
     const response = await createProposal(formData);
     if (response) console.log(response);
-    setIsModalOpen(true);
+    setIsCreatedModalOpen(true);
+    setIsFromCreate(true);
+    navigate("/");
   };
 
   useEffect(() => {
+    setTimeout(() => window.scrollTo(0, 0), 0);
     calculateServiceFee();
   }, []);
 
@@ -353,6 +352,34 @@ const CheckPaymentAndInformationPage = ({
             <div className="w-1/3 text-xl ">{addressInMyanmar}</div>
           </div>
         </div>
+        {isForChild && (
+          <div className="mt-10">
+            <div className="text-xl underline text-blue font-bold mb-3">
+              CHILD INFORMATION
+            </div>
+            <div className="flex p-3 border-b border-bgColor mb-1">
+              <div className="w-1/3 text-xl font-semibold">Name</div>
+              <div className="w-1/3 text-xl ">{childName}</div>
+            </div>
+            <div className="flex p-3 border-b border-bgColor mb-1">
+              <div className="w-1/3 text-xl font-semibold">Date of Birth</div>
+              <div className="w-1/3 text-xl ">{dateformat(childDob)}</div>
+            </div>
+            <div className="flex p-3 border-b border-bgColor mb-1">
+              <div className="w-1/3 text-xl font-semibold">Gender</div>
+              <div className="w-1/3 text-xl ">{childGender}</div>
+            </div>
+            <div className="flex p-3 border-b border-bgColor mb-1">
+              <div className="w-1/3 text-xl font-semibold">Guardiance Name</div>
+              <div className="w-1/3 text-xl ">{childGuardianceName}</div>
+            </div>
+
+            <div className="flex p-3 border-b border-bgColor mb-1">
+              <div className="w-1/3 text-xl font-semibold">Relationship</div>
+              <div className="w-1/3 text-xl ">{childRelationship}</div>
+            </div>
+          </div>
+        )}
         <div className="mt-10">
           <div className="text-xl underline text-blue font-bold mb-3">
             BENEFICIARY INFORMATION
@@ -392,6 +419,23 @@ const CheckPaymentAndInformationPage = ({
             <div className="w-1/3 text-xl ">{beneficiaryResidentCountry}</div>
           </div>
         </div>
+        {isAgent && (
+          <div className="mt-10">
+            <div className="text-xl underline text-blue font-bold mb-3">
+              AGENT INFORMATION
+            </div>
+            <div className="flex p-3 border-b border-bgColor mb-1">
+              <div className="w-1/3 text-xl font-semibold">
+                Agent License No.
+              </div>
+              <div className="w-1/3 text-xl ">{agentLicenseNo}</div>
+            </div>
+            <div className="flex p-3 border-b border-bgColor mb-1">
+              <div className="w-1/3 text-xl font-semibold">Agent Name</div>
+              <div className="w-1/3 text-xl ">{agentName}</div>
+            </div>
+          </div>
+        )}
         <div className="mt-10">
           <Button
             className="text-xl text-white bg-blue font-semibold p-4 h-10"
@@ -401,23 +445,6 @@ const CheckPaymentAndInformationPage = ({
           </Button>
         </div>
       </div>
-      <Modal
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        footer={null}
-      >
-        <Result
-          status="success"
-          title="Inbound Proposal Created"
-          // subTitle="Order Confirmed"
-          // extra={[
-          //   <Button type="primary" onClick={() => navigate("/")}>
-          //     Go To Home
-          //   </Button>,
-          // ]}
-        />
-      </Modal>
     </div>
   );
 };

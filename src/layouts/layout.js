@@ -1,12 +1,12 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Heading from "../components/Heading";
+import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 const Userlayout = () => {
   return (
     <div className="bg-slate tracking-[-0.035em]">
-      <Heading />
+      <Header />
       <Outlet />
       <Footer />
     </div>

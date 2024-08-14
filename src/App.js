@@ -10,6 +10,7 @@ import EnquiryPage from "./pages/EnquiryPage";
 function App() {
   const [form] = Form.useForm();
   const [isFromCreate, setIsFromCreate] = useState(false);
+  const [isCreatedModalOpen, setIsCreatedModalOpen] = useState(false);
 
   const [countryNameList, setCountryNameList] = useState([]);
   const [countryCodeList, setCountryCodeList] = useState([]);
@@ -82,7 +83,7 @@ function App() {
 
   // Payment
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState(null);
+  const [paymentMethod, setPaymentMethod] = useState("VISA");
 
   const router = createBrowserRouter([
     {
@@ -96,6 +97,8 @@ function App() {
               form={form}
               isFromCreate={isFromCreate}
               setIsFromCreate={setIsFromCreate}
+              isCreatedModalOpen={isCreatedModalOpen}
+              setIsCreatedModalOpen={setIsCreatedModalOpen}
               countryNameList={countryNameList}
               setCountryNameList={setCountryNameList}
               countryCodeList={countryCodeList}
@@ -203,6 +206,8 @@ function App() {
               form={form}
               isFromCreate={isFromCreate}
               setIsFromCreate={setIsFromCreate}
+              isCreatedModalOpen={isCreatedModalOpen}
+              setIsCreatedModalOpen={setIsCreatedModalOpen}
               countryNameList={countryNameList}
               setCountryNameList={setCountryNameList}
               countryCodeList={countryCodeList}

@@ -7,6 +7,7 @@ import {
   Select,
   Modal,
   Form,
+  Result,
   ConfigProvider,
 } from "antd";
 import moment from "moment";
@@ -21,11 +22,14 @@ import selfImg from "../assets/img/self1.jpg";
 import agentImg from "../assets/img/agent_assoc.png";
 import visaImg from "../assets/img/visa_icon.png";
 import masterImg from "../assets/img/master_card.png";
+import { FaCheckCircle } from "react-icons/fa";
 
 const InboundFormPage = ({
   form,
   isFromCreate,
   setIsFromCreate,
+  isCreatedModalOpen,
+  setIsCreatedModalOpen,
 
   countryNameList,
   setCountryNameList,
@@ -322,6 +326,71 @@ const InboundFormPage = ({
     form.setFieldValue("coveragePlan", coveragePlan);
   };
 
+  const resetOldData = () => {
+    form.resetFields();
+
+    //Insured Person
+    setPassportNumber(null);
+    setPassportIssuedDate(null);
+    setPassportIssuedCountry(null);
+
+    setIsForChild(false);
+
+    setName(null);
+    setDob(null);
+    setGender(null);
+
+    setEstimatedArrivalDate(null);
+    setJourneyFrom(null);
+
+    setCoveragePlan(null);
+    setAge(null);
+    setPremiumRate(null);
+
+    setCountryCode(null);
+    setPhoneNo(null);
+    setContactNumber(null);
+    setEmail(null);
+
+    setAddressInMyanmar(null);
+    setResidentAddress(null);
+    setResidentCountry(null);
+
+    //Beneficiary
+    setBeneficiaryName(null);
+    setBeneficiaryDob(null);
+    setBeneficiaryNin(null);
+
+    setBeneficiaryRelationship(null);
+    setBeneficiaryCountryCode(null);
+    setBeneficiaryPhoneNo(null);
+    setBeneficiaryContactNumber(null);
+    setBeneficiaryEmail(null);
+
+    setBeneficiaryResidentAddress(null);
+    setBeneficiaryResidentCountry(null);
+
+    // Child
+    setChildName(null);
+    setChildDob(null);
+    setChildGender(null);
+
+    setChildGuardianceName(null);
+    setChildRelationship(null);
+
+    // Agent
+    setIsAgent(false);
+
+    setAgentLicenseNo(null);
+    setAgentPassword(null);
+
+    setLicenseNo(null);
+    setAgentName(null);
+
+    // Payment
+    setPaymentMethod(null);
+  };
+
   const showAgentModal = () => {
     setNoAgent(false);
     setIsAgentModalOpen(true);
@@ -364,6 +433,10 @@ const InboundFormPage = ({
     setIsPaymentModalOpen(false);
   };
 
+  const handleCreatedCancel = () => {
+    setIsCreatedModalOpen(false);
+  };
+
   const disablePastDates = (current) => {
     // Can not select dates before today
     return current && current < moment().startOf("day");
@@ -380,20 +453,24 @@ const InboundFormPage = ({
   };
 
   useEffect(() => {
+    setTimeout(() => window.scrollTo(0, 0), 0);
     getAllCountryList();
-    if (!isFromCreate) {
-      getOldData();
+    getOldData();
+    if (isFromCreate) {
+      resetOldData();
+      setIsFromCreate(false);
     }
-    setIsFromCreate(false);
   }, []);
 
   useEffect(() => {
-    if (childDob !== null) {
-      calculateAge(childDob);
+    if (isForChild) {
+      if (childDob !== null) {
+        calculateAge(childDob);
+      }
     } else if (dob !== null) {
       calculateAge(dob);
     }
-  }, [dob, childDob]);
+  }, [dob, childDob, isForChild]);
 
   useEffect(() => {
     setContactNumber(`${countryCode} ${phoneNo}`);
@@ -531,7 +608,9 @@ const InboundFormPage = ({
               </div>
               <div>
                 <Radio.Group
-                  onChange={(e) => setIsForChild(e.target.value)}
+                  onChange={(e) => {
+                    setIsForChild(e.target.value);
+                  }}
                   value={isForChild}
                   className=" flex items-center gap-2 mb-3"
                 >
@@ -1498,24 +1577,35 @@ const InboundFormPage = ({
             <div className="text-xl text-blue font-bold">
               Choose Payment Method
             </div>
-            <div className="mt-3">
+            <div className="mt-5">
               <Radio.Group
                 onChange={(e) => setPaymentMethod(e.target.value)}
                 value={paymentMethod}
-                className=" flex gap-5 mb-3"
+                className=" flex gap-5 mb-3 z-0"
               >
                 <Radio.Button
                   value="VISA"
-                  defaultChecked={true}
                   className="w-1/3 text-xl text-blue font-bold w-[200px] h-[120px]"
                 >
                   <img src={visaImg} width="200px" height="120px" />
+                  {paymentMethod == "VISA" && (
+                    <FaCheckCircle
+                      size={35}
+                      className="absolute top-[-15px] left-[170px]"
+                    />
+                  )}
                 </Radio.Button>
                 <Radio.Button
                   value="MASTER"
-                  className="w-1/3 text-xl text-blue font-bold w-[200px] h-[120px]"
+                  className="relative w-1/3 text-xl text-blue font-bold w-[200px] h-[120px]"
                 >
                   <img src={masterImg} width="200px" height="120px" />
+                  {paymentMethod == "MASTER" && (
+                    <FaCheckCircle
+                      size={35}
+                      className="absolute top-[-15px] left-[170px]"
+                    />
+                  )}
                 </Radio.Button>
               </Radio.Group>
             </div>
@@ -1529,6 +1619,14 @@ const InboundFormPage = ({
               NEXT
             </Button>
           </div>
+        </Modal>
+        <Modal
+          open={isCreatedModalOpen}
+          onCancel={handleCreatedCancel}
+          footer={null}
+          centered
+        >
+          <Result status="success" title="Inbound Proposal Created" />
         </Modal>
       </div>
     </div>

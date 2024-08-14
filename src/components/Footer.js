@@ -1,4 +1,5 @@
 import footerLogo from "../assets/img/footerLogo.png";
+import { FaFacebook, FaFacebookF } from "react-icons/fa6";
 
 const Footer = () => {
   return (
@@ -77,13 +78,20 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="w-full bg-blue flex p-5 items-center">
-        <div className="w-2/5 text-lg text-white ml-3">
-          <div>&copy; 2024 Myanma Insurance</div>
-          <div>All Rights Reserved By Myanma Insurance</div>
-        </div>
-        <div className="3/5">
-          <img src={footerLogo} className="w-96" />
+      <div className="w-full bg-blue">
+        <div className="w-[87%] flex p-5 mx-auto items-center">
+          <div className="w-2/5 text-lg text-white ml-3">
+            <div>&copy; 2024 Myanma Insurance</div>
+            <div>All Rights Reserved By Myanma Insurance</div>
+          </div>
+          <div className="w-2/5">
+            <img src={footerLogo} className="w-96" />
+          </div>
+          <div className="w-1/5 flex justify-end">
+            <a href="#facebook">
+              <FaFacebookF className="bg-white text-[#5890FF] p-[3px] w-[30px] h-[30px] rounded" />
+            </a>
+          </div>
         </div>
       </div>
     </div>

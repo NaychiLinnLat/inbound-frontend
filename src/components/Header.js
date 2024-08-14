@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import { Dropdown } from "antd";
 
-const Heading = () => {
+const Header = () => {
   const items = [
     // {
     //   key: "1",
@@ -44,32 +44,32 @@ const Heading = () => {
                       <FaEnvelopeOpen />
                     </div>
                     <div className="">
-                      <a href="#" className="font-bold text-blue text-lg">
+                      <a href="#" className="font-bold text-blue text-[15px]">
                         online-support@mminsurance.gov.mm
                       </a>
-                      <div className="font-semibold text-lg text-bgColor">
+                      <div className="font-semibold text-[15px] text-bgColor">
                         Drop us a mail
                       </div>
                     </div>
                   </div>
                 </li>
-                <li className="border-r-2 border-bgColor"></li>
+                <li className="border-r-[1px] border-bgColor h-[50px] my-auto"></li>
                 <li className="">
                   <div className="flex items-center p-5">
                     <div className="text-blue border border-blue rounded-full p-1 m-3">
                       <FaPhone />
                     </div>
                     <div className="">
-                      <p className="font-bold text-blue text-lg">
+                      <p className="font-bold text-blue text-[15px]">
                         +959765428630,31
                       </p>
-                      <div className="font-semibold text-lg text-bgColor">
+                      <div className="font-semibold text-[15px] text-bgColor">
                         Make a call
                       </div>
                     </div>
                   </div>
                 </li>
-                <li className="border-r-2 border-bgColor"></li>
+                <li className="border-r-[1px] border-bgColor h-[50px] my-auto"></li>
                 <li>
                   <div className="mt-5">
                     <aside className="">
@@ -140,7 +140,7 @@ const Heading = () => {
                 </a>
               </li>
             </ul>
-            <ul className="flex w-2/5 text-sm font-bold gap-2">
+            <ul className="flex w-2/5 justify-end text-sm font-bold gap-1">
               <li className="bg-white text-blue p-1 rounded">
                 <a href="#">Premium Calculator</a>
               </li>
@@ -161,4 +161,4 @@ const Heading = () => {
   );
 };
 
-export default Heading;
+export default Header;

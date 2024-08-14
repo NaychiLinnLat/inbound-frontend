@@ -1,7 +1,6 @@
 import { Input, Select, Button, Form, Table, ConfigProvider } from "antd";
 import { useEffect, useState } from "react";
 import {
-  PDFViewer,
   PDFDownloadLink,
   Document,
   Page,
@@ -10,10 +9,12 @@ import {
   Text,
   StyleSheet,
 } from "@react-pdf/renderer";
+import { dateformat } from "../utils/dateformat";
 import { getProposalByPassportNoAndCountry } from "../api/proposalApi";
 import { getAllCountry } from "../api/countryApi";
 import img0 from "../assets/img/img0.jpg";
-import img1 from "../assets/img/img1.jpg";
+import img1_1 from "../assets/img/img1_1.jpg";
+import img1_2 from "../assets/img/img1_2.jpg";
 import img2 from "../assets/img/img2.jpg";
 import img3 from "../assets/img/img3.jpg";
 import img4 from "../assets/img/img4.jpg";
@@ -73,7 +74,7 @@ const EnquiryPage = ({ isFromCreate, setIsFromCreate }) => {
             insuredPersonName: d.isChild ? d.childName : d.insuredPersonName,
             download: (
               <PDFDownloadLink document={MyDocument(d)}>
-                <Button>Download</Button>
+                <Button className="bg-blue text-white">Download</Button>
               </PDFDownloadLink>
             ),
           };
@@ -158,10 +159,11 @@ const EnquiryPage = ({ isFromCreate, setIsFromCreate }) => {
   ];
 
   useEffect(() => {
+    setTimeout(() => window.scrollTo(0, 0), 0);
     getAllCountryList();
   }, []);
 
-  // Create styles
+  // Create PDF Document styles
   const styles = StyleSheet.create({
     page: {
       flexDirection: "row",
@@ -412,44 +414,124 @@ const EnquiryPage = ({ isFromCreate, setIsFromCreate }) => {
                   width: "140px",
                 }}
               >
-                <Text style={{ margin: "0 auto" }}>{d.passportNo}</Text>
-                <Text style={{ margin: "0 auto", fontSize: "9px" }}>
-                  {d.passportIssuedCountry}
-                </Text>
+                {d.isChild ? (
+                  <Text style={{ margin: "3px auto" }}>
+                    Child without a valid passport
+                  </Text>
+                ) : (
+                  <>
+                    <Text style={{ margin: "0 auto" }}>{d.passportNo}</Text>
+                    <Text style={{ margin: "0 auto", fontSize: "9px" }}>
+                      {d.passportIssuedCountry}
+                    </Text>
+                  </>
+                )}
               </View>
             </View>
           </View>
-          <Image src={img1} />
+          <Image src={img1_1} />
+          <View style={{ display: "flex", flexDirection: "row" }}>
+            <Image src={img1_2} style={{ width: "200px", height: "120px" }} />
+            <Text
+              style={{
+                fontSize: "9px",
+                marginLeft: "250px",
+                marginTop: "70px",
+              }}
+            >
+              Print Date: &nbsp;&nbsp;{dateformat(new Date())}
+            </Text>
+          </View>
         </View>
       </Page>
       <Page size="A4" style={styles.page}>
         <View>
           <Image src={img2} />
+          <Text
+            style={{
+              fontSize: "9px",
+              marginLeft: "450px",
+              marginTop: "10px",
+              marginBottom: "20px",
+            }}
+          >
+            Print Date: &nbsp;&nbsp;{dateformat(new Date())}
+          </Text>
         </View>
       </Page>
       <Page size="A4" style={styles.page}>
         <View>
           <Image src={img3} />
+          <Text
+            style={{
+              fontSize: "9px",
+              marginLeft: "450px",
+              marginTop: "80px",
+              marginBottom: "20px",
+            }}
+          >
+            Print Date: &nbsp;&nbsp;{dateformat(new Date())}
+          </Text>
         </View>
       </Page>
       <Page size="A4" style={styles.page}>
         <View>
           <Image src={img4} />
+          <Text
+            style={{
+              fontSize: "9px",
+              marginLeft: "450px",
+              marginTop: "10px",
+              marginBottom: "20px",
+            }}
+          >
+            Print Date: &nbsp;&nbsp;{dateformat(new Date())}
+          </Text>
         </View>
       </Page>
       <Page size="A4" style={styles.page}>
         <View>
           <Image src={img5} />
+          <Text
+            style={{
+              fontSize: "9px",
+              marginLeft: "450px",
+              marginTop: "10px",
+              marginBottom: "20px",
+            }}
+          >
+            Print Date: &nbsp;&nbsp;{dateformat(new Date())}
+          </Text>
         </View>
       </Page>
       <Page size="A4" style={styles.page}>
         <View>
           <Image src={img6} />
+          <Text
+            style={{
+              fontSize: "9px",
+              marginLeft: "450px",
+              marginTop: "10px",
+              marginBottom: "20px",
+            }}
+          >
+            Print Date: &nbsp;&nbsp;{dateformat(new Date())}
+          </Text>
         </View>
       </Page>
       <Page size="A4" style={styles.page}>
         <View>
           <Image src={img7} />
+          <Text
+            style={{
+              fontSize: "9px",
+              marginLeft: "450px",
+              marginTop: "10px",
+              marginBottom: "20px",
+            }}
+          >
+            Print Date: &nbsp;&nbsp;{dateformat(new Date())}
+          </Text>
         </View>
       </Page>
     </Document>
@@ -533,6 +615,9 @@ const EnquiryPage = ({ isFromCreate, setIsFromCreate }) => {
                       className="h-[42px]"
                       placeholder="SELECT ONE"
                       options={countryNameList}
+                      onInput={(e) =>
+                        (e.target.value = e.target.value.toUpperCase())
+                      }
                       onChange={(value) => setPassportIssuedCountry(value)}
                       showSearch={true}
                     />
