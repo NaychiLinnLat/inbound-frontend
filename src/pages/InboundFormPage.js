@@ -774,6 +774,7 @@ const InboundFormPage = ({
                       placeholder="SELECT ONE"
                       options={countryNameList}
                       onChange={(value) => setJourneyFrom(value)}
+                      showSearch={true}
                     />
                   </Form.Item>
                 </div>
@@ -837,6 +838,7 @@ const InboundFormPage = ({
                         dropdownStyle={{ width: "300px" }}
                         options={countryCodeList}
                         onChange={(value) => setCountryCode(value)}
+                        showSearch={true}
                       />
                     </Form.Item>
                     <Form.Item
@@ -961,6 +963,7 @@ const InboundFormPage = ({
                       placeholder="SELECT ONE"
                       options={countryNameList}
                       onChange={(value) => setResidentCountry(value)}
+                      showSearch={true}
                     />
                   </Form.Item>
                 </div>
@@ -1248,6 +1251,7 @@ const InboundFormPage = ({
                         placeholder="SELECT ONE"
                         options={countryCodeList}
                         onChange={(value) => setBeneficiaryCountryCode(value)}
+                        showSearch={true}
                       />
                     </Form.Item>
                     <Form.Item
@@ -1357,6 +1361,7 @@ const InboundFormPage = ({
                       placeholder="SELECT ONE"
                       options={countryNameList}
                       onChange={(value) => setBeneficiaryResidentCountry(value)}
+                      showSearch={true}
                     />
                   </Form.Item>
                 </div>
@@ -1412,7 +1417,7 @@ const InboundFormPage = ({
                     <Input
                       placeholder="AGENT LICENSE NUMBER"
                       value={licenseNo}
-                      disabled
+                      readOnly={true}
                       className="w-[100%] text-[17px] h-[42px]"
                     />
                   </div>
@@ -1422,8 +1427,8 @@ const InboundFormPage = ({
                     </div>
 
                     <Input
-                      disabled
                       value={agentName}
+                      readOnly={true}
                       className="w-[100%] text-[17px] h-[42px]"
                     />
                   </div>

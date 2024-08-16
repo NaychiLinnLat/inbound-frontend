@@ -71,7 +71,7 @@ const EnquiryPage = ({ isFromCreate, setIsFromCreate }) => {
       const res = await getProposalByPassportNoAndCountry(formData);
       console.log(res.data);
       if (res.data.length > 0) {
-        const sortedData = res.data.sort(function (a, b) {
+        const sortedData = res.data.sort(function (b, a) {
           if (a.createdAt < b.createdAt) {
             return -1;
           }
