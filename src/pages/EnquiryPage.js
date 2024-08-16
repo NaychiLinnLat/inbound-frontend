@@ -33,27 +33,32 @@ const EnquiryPage = ({ isFromCreate, setIsFromCreate }) => {
   const [data, setData] = useState(null);
 
   const getAllCountryList = async () => {
-    const response = await getAllCountry();
-    // setCountryList(response.data);
+    try {
+      const response = await getAllCountry();
 
-    const sortedData = response?.data?.sort(function (a, b) {
-      if (a.name < b.name) {
-        return -1;
+      if (response.status === 200) {
+        const sortedData = response?.data?.sort(function (a, b) {
+          if (a.countryName < b.countryName) {
+            return -1;
+          }
+          if (a.countryName > b.countryName) {
+            return 1;
+          }
+          return 0;
+        });
+
+        const modifiedCountryNameData = sortedData?.map((d) => {
+          return {
+            value: d.countryName.toUpperCase(),
+            label: d.countryName.toUpperCase(),
+          };
+        });
+
+        setCountryNameList(modifiedCountryNameData);
       }
-      if (a.name > b.name) {
-        return 1;
-      }
-      return 0;
-    });
-
-    const modifiedCountryNameData = sortedData?.map((d) => {
-      return {
-        value: d.name.toUpperCase(),
-        label: d.name.toUpperCase(),
-      };
-    });
-
-    setCountryNameList(modifiedCountryNameData);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const searchProposal = async (values) => {
@@ -188,7 +193,6 @@ const EnquiryPage = ({ isFromCreate, setIsFromCreate }) => {
       marginLeft: 80,
       padding: 5,
       flexGrow: 1,
-      width: "200px",
       display: "flex",
       flexDirection: "row",
     },

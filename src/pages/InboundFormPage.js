@@ -215,48 +215,51 @@ const InboundFormPage = ({
   ];
 
   const getAllCountryList = async () => {
-    const response = await getAllCountry();
+    try {
+      const response = await getAllCountry();
 
-    const sortedData = response?.data?.sort(function (a, b) {
-      if (a.name < b.name) {
-        return -1;
+      if (response.status === 200) {
+        const sortedData = response?.data?.sort(function (a, b) {
+          if (a.countryName < b.countryName) {
+            return -1;
+          }
+          if (a.countryName > b.countryName) {
+            return 1;
+          }
+          return 0;
+        });
+        const modifiedCountryNameData = sortedData?.map((d) => {
+          return {
+            value: d.countryName.toUpperCase(),
+            label: d.countryName.toUpperCase(),
+          };
+        });
+        setCountryNameList(modifiedCountryNameData);
+        const modifiedCountryCodeData = sortedData?.map((d) => {
+          return {
+            value: d.countryCode,
+            label: `${d.countryCode} ${d.countryName?.toUpperCase()}`,
+          };
+        });
+
+        setCountryCodeList(modifiedCountryCodeData);
       }
-      if (a.name > b.name) {
-        return 1;
-      }
-      return 0;
-    });
-
-    const modifiedCountryNameData = sortedData?.map((d) => {
-      return {
-        value: d.name.toUpperCase(),
-        label: d.name.toUpperCase(),
-      };
-    });
-
-    setCountryNameList(modifiedCountryNameData);
-
-    const modifiedCountryCodeData = sortedData?.map((d) => {
-      return {
-        value: d.countryCode,
-        label: `${d.countryCode} ${d.name.toUpperCase()}`,
-      };
-    });
-
-    setCountryCodeList(modifiedCountryCodeData);
-    console.log(modifiedCountryCodeData);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const getPremiumRate = async () => {
     const formData = new FormData();
     formData.append("age", age);
     formData.append("days", coveragePlan);
-
-    const response = await getPremiumRateByAgeAndCoveragePlan(formData);
-    console.log(response);
-    if (response?.data) {
-      setPremiumRate(response.data.rate);
-      console.log(response.data);
+    try {
+      const response = await getPremiumRateByAgeAndCoveragePlan(formData);
+      if (response.status === 200) {
+        setPremiumRate(response?.data?.rate);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -268,7 +271,7 @@ const InboundFormPage = ({
     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
       ageValue--;
     }
-    if (ageValue == 0) {
+    if (ageValue === 0) {
       ageValue++;
     }
     setAge(ageValue);
@@ -388,7 +391,7 @@ const InboundFormPage = ({
     setAgentName(null);
 
     // Payment
-    setPaymentMethod(null);
+    setPaymentMethod("VISA");
   };
 
   const showAgentModal = () => {
@@ -402,17 +405,20 @@ const InboundFormPage = ({
     formData.append("licenceNo", agentLicenseNo);
     formData.append("password", agentPassword);
 
-    const response = await getAgentByLicense(formData);
-    console.log(response?.data);
-    if (response?.data?.name) {
-      setLicenseNo(response.data.licenceNo);
-      setAgentName(response.data.name);
-      setIsAgentModalOpen(false);
-      setNoAgent(false);
-      setAgentLoading(false);
-    } else {
-      setAgentLoading(false);
-      setNoAgent(true);
+    try {
+      const response = await getAgentByLicense(formData);
+      if (response.status === 200) {
+        setLicenseNo(response.data?.licenceNo);
+        setAgentName(response.data?.agentName);
+        setIsAgentModalOpen(false);
+        setNoAgent(false);
+        setAgentLoading(false);
+      } else {
+        setAgentLoading(false);
+        setNoAgent(true);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -1405,8 +1411,8 @@ const InboundFormPage = ({
 
                     <Input
                       placeholder="AGENT LICENSE NUMBER"
-                      disabled
                       value={licenseNo}
+                      disabled
                       className="w-[100%] text-[17px] h-[42px]"
                     />
                   </div>
@@ -1414,6 +1420,7 @@ const InboundFormPage = ({
                     <div className="mb-3 text-lg text-blue font-bold">
                       Name <span className="text-red">*</span>
                     </div>
+
                     <Input
                       disabled
                       value={agentName}
@@ -1588,7 +1595,7 @@ const InboundFormPage = ({
                   className="w-1/3 text-xl text-blue font-bold w-[200px] h-[120px]"
                 >
                   <img src={visaImg} width="200px" height="120px" />
-                  {paymentMethod == "VISA" && (
+                  {paymentMethod === "VISA" && (
                     <FaCheckCircle
                       size={35}
                       className="absolute top-[-15px] left-[170px]"
@@ -1600,7 +1607,7 @@ const InboundFormPage = ({
                   className="relative w-1/3 text-xl text-blue font-bold w-[200px] h-[120px]"
                 >
                   <img src={masterImg} width="200px" height="120px" />
-                  {paymentMethod == "MASTER" && (
+                  {paymentMethod === "MASTER" && (
                     <FaCheckCircle
                       size={35}
                       className="absolute top-[-15px] left-[170px]"

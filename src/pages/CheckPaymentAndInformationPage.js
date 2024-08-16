@@ -1,4 +1,4 @@
-import { Button, Modal, Result } from "antd";
+import { Button } from "antd";
 import { useState, useEffect } from "react";
 import { createProposal } from "../api/proposalApi";
 import { dateformat } from "../utils/dateformat";
@@ -144,7 +144,7 @@ const CheckPaymentAndInformationPage = ({
     // Insured Person
     formData.append("passportNo", passportNumber);
     formData.append("passportIssuedDate", dateformat(passportIssuedDate));
-    formData.append("passportCountry", passportIssuedCountry);
+    formData.append("passportIssuedCountry", passportIssuedCountry);
 
     formData.append("isChild", isForChild);
 
@@ -200,12 +200,16 @@ const CheckPaymentAndInformationPage = ({
           coveragePlan * 24 * 60 * 60 * 1000
       )
     );
-
-    const response = await createProposal(formData);
-    if (response) console.log(response);
-    setIsCreatedModalOpen(true);
-    setIsFromCreate(true);
-    navigate("/");
+    try {
+      const response = await createProposal(formData);
+      if (response.data.status === "201") {
+        setIsCreatedModalOpen(true);
+        setIsFromCreate(true);
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
